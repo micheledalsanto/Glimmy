@@ -40,36 +40,6 @@ export const completePhraseSets: Record<string, PhraseSet[]> = {
           answer: "indovinelli"
         }
       ]
-    },
-    {
-      id: 2,
-      phrases: [
-        {
-          text: "Un robot non dorme, ma può ______.",
-          options: ["russare", "caricarsi", "sognare"],
-          answer: "caricarsi"
-        },
-        {
-          text: "Quando vede una banana, Glimmy dice: è una ______!",
-          options: ["frutta", "scarpa", "stella"],
-          answer: "frutta"
-        },
-        {
-          text: "L’AI aiuta a trovare le ______ giuste.",
-          options: ["risposte", "scarpe", "faccine"],
-          answer: "risposte"
-        },
-        {
-          text: "Per funzionare, Glimmy ha bisogno di un ______.",
-          options: ["cuscino", "computer", "frullatore"],
-          answer: "computer"
-        },
-        {
-          text: "Glimmy parla con noi come un piccolo ______.",
-          options: ["orso", "amico", "cavallo"],
-          answer: "amico"
-        }
-      ]
     }
   ],
   en: [
@@ -102,36 +72,6 @@ export const completePhraseSets: Record<string, PhraseSet[]> = {
           answer: "riddles"
         }
       ]
-    },
-    {
-      id: 2,
-      phrases: [
-        {
-          text: "A robot doesn’t sleep, but it can ______.",
-          options: ["snore", "charge", "dream"],
-          answer: "charge"
-        },
-        {
-          text: "When Glimmy sees a banana, it says: it’s a ______!",
-          options: ["fruit", "shoe", "star"],
-          answer: "fruit"
-        },
-        {
-          text: "AI helps to find the right ______.",
-          options: ["answers", "shoes", "faces"],
-          answer: "answers"
-        },
-        {
-          text: "To work, Glimmy needs a ______.",
-          options: ["pillow", "computer", "blender"],
-          answer: "computer"
-        },
-        {
-          text: "Glimmy talks to us like a little ______.",
-          options: ["bear", "friend", "horse"],
-          answer: "friend"
-        }
-      ]
     }
   ],
   es: [
@@ -162,36 +102,6 @@ export const completePhraseSets: Record<string, PhraseSet[]> = {
           text: "¡A Glimmy le encantan los juegos y los ______!",
           options: ["pasteles", "acertijos", "siestas"],
           answer: "acertijos"
-        }
-      ]
-    },
-    {
-      id: 2,
-      phrases: [
-        {
-          text: "Un robot no duerme, pero puede ______.",
-          options: ["roncar", "cargarse", "soñar"],
-          answer: "cargarse"
-        },
-        {
-          text: "Cuando ve una banana, Glimmy dice: ¡es una ______!",
-          options: ["fruta", "zapata", "estrella"],
-          answer: "fruta"
-        },
-        {
-          text: "La IA ayuda a encontrar las ______ correctas.",
-          options: ["respuestas", "zapatos", "caritas"],
-          answer: "respuestas"
-        },
-        {
-          text: "Para funcionar, Glimmy necesita una ______.",
-          options: ["almohada", "computadora", "licuadora"],
-          answer: "computadora"
-        },
-        {
-          text: "Glimmy habla con nosotros como un pequeño ______.",
-          options: ["oso", "amigo", "caballo"],
-          answer: "amigo"
         }
       ]
     }
