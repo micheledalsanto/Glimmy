@@ -44,7 +44,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from "vue"
+import { ref, computed, onMounted, watch } from "vue"
 import { useI18n } from "vue-i18n"
 import { completePhraseSets, type Phrase } from "../../data/completePhrases"
 
@@ -72,10 +72,26 @@ const nextPhrase = () => {
   }
 }
 
-onMounted(() => {
-  const lang = locale.value as keyof typeof completePhraseSets
-  const sets = completePhraseSets[lang] || completePhraseSets.it
+// funzione centrale per caricare le frasi nella lingua attuale
+const setupPhrases = () => {
+  const rawLang = locale.value
+  const shortLang = rawLang.split("-")[0] as keyof typeof completePhraseSets
+  const sets = completePhraseSets[shortLang] || completePhraseSets.it
   const randomSet = sets[Math.floor(Math.random() * sets.length)]
+
   currentSet.value = randomSet.phrases
+  currentIndex.value = 0
+  selected.value = null
+  answered.value = false
+}
+
+// carica all'avvio
+onMounted(() => {
+  setupPhrases()
+})
+
+// cambia in tempo reale se cambia lingua
+watch(() => locale.value, () => {
+  setupPhrases()
 })
 </script>
