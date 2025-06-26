@@ -116,7 +116,7 @@ const allItems: GuessItem[] = [
   { emoji: '🔌', options: ['plug', 'battery', 'chip'], answer: 'plug' },
   { emoji: '🗺️', options: ['map', 'globe', 'compass'], answer: 'map' },
   { emoji: '🧠', options: ['ai', 'brain', 'idea'], answer: 'ai' },
-  { emoji: '💾', options: ['chip', 'disk', 'experiment'], answer: 'chip' }
+  { emoji: '💾', options: ['floppy', 'disk', 'experiment'], answer: 'floppy' }
 ]
 
 function getRandomItems<T>(array: T[], count: number): T[] {
