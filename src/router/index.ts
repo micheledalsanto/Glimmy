@@ -10,6 +10,7 @@ import Menu from '../views/Menu.vue'
 import Games from '../views/games/Index.vue'
 import Memory from '../views/games/Memory.vue'
 import Guess from '../views/games/GuessAI.vue' // ← QUI
+import CompletePhrase from '../views/games/CompletePhraseGame.vue'
 
 const routes = [
   {
@@ -43,7 +44,12 @@ const routes = [
             path: 'guess',
             name: 'Guess',
             component: Guess
-          }
+          },
+          {
+        path: 'complete-phrase',
+        name: 'CompletePhrase',
+        component: CompletePhrase
+        }
         ]
       }
     ]

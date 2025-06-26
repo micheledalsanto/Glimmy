@@ -1,11 +1,11 @@
 {
   "home": {
     "title": "¡Bienvenido al Mundo de Glimmy!",
-    "subtitle": "Explora el mundo de la inteligencia artificial divirtiéndote.",
-    "start": "Empezar"
+    "subtitle": "Descubre el mundo de la inteligencia artificial divirtiéndote.",
+    "start": "Comenzar"
   },
   "menu": {
-    "title": "¿Qué quieres hacer?",
+    "title": "¿Qué te gustaría hacer?",
     "games": "Juegos",
     "glossary": "Glosario",
     "stories": "Historias",
@@ -13,24 +13,29 @@
   },
   "games": {
     "select": "¡Elige un juego!",
-    "memory": "Memoria IA",
-    "guess": "Adivina el Objeto IA",
-    "story": "Completa la Frase",
+    "memory": "Memory AI",
+    "guess": "Adivina el Objeto AI",
+    "completePhrase": {
+    "title": "Completa la Frase"
+    },
+    "tryPrompt": {
+    "title": "Prueba los Prompts de IA"
+    },
     "comingSoon": "¡Próximamente!",
     "memory": {
-      "title": "Memoria IA: ¡encuentra todas las parejas!",
+      "title": "Memory AI: ¡encuentra todas las parejas!",
       "congrats": "¡Bien hecho!",
-      "completed": "¡Has completado el juego con éxito!",
+      "completed": "¡Has completado el juego!",
       "playAgain": "Jugar de nuevo",
       "backMenu": "Volver al menú"
     },
     "guess": {
-      "question": "¿Qué ha reconocido Glimmy?",
+      "question": "¿Qué imagen ha creado Glimmy?",
       "correct": "¡Correcto!",
       "wrong": "¡Ups! Era",
       "next": "Siguiente",
-      "congrats": "¡Buen trabajo!",
-      "score": "¡Has adivinado {score} objetos!",
+      "congrats": "¡Muy bien!",
+      "score": "¡Adivinaste {score} objetos!",
       "playAgain": "Jugar de nuevo",
       "backMenu": "Volver al menú",
       "items": {
@@ -48,18 +53,226 @@
         "antenna": "Antena",
         "dna": "ADN",
         "ladder": "Escalera",
-        "electrons": "Electrones"
+        "electrons": "Electrones",
+        "controlpanel": "Panel de control",
+        "camera": "Cámara",
+        "gears": "Engranajes",
+        "target": "Objetivo",
+        "battery": "Batería",
+        "signal": "Señal",
+        "microscope": "Microscopio",
+        "disk": "Disco",
+        "joystick": "Joystick",
+        "search": "Lupa",
+        "computer": "Ordenador",
+        "magnet": "Imán",
+        "graph": "Gráfico",
+        "experiment": "Experimento",
+        "tool": "Herramienta",
+        "block": "Bloque",
+        "chart": "Diagrama",
+        "globe": "Globo",
+        "extinguisher": "Extintor",
+        "compass": "Brújula",
+        "plug": "Enchufe",
+        "map": "Mapa",
+        "ai": "Inteligencia Artificial",
+        "chip": "Chip",
+        "monitor": "Monitor",
+        "floppy": "Disquete"
       }
     },
     "story": {
       "title": "Completa la Frase",
-      "instruction": "Escribe la palabra que falta:",
-      "correct": "¡Muy bien!",
+      "instruction": "Elige la palabra correcta:",
+      "correct": "¡Buen trabajo!",
       "wrong": "¡Intenta otra vez!",
       "next": "Siguiente",
-      "score": "¡Has completado {score} frases!",
+      "score": "¡Completaste {score} frases!",
       "playAgain": "Reiniciar",
-      "backMenu": "Volver al menú"
+      "backMenu": "Volver al menú",
+      "sets": [
+        {
+          "id": 1,
+          "phrases": [
+            {
+              "text": "Glimmy es una pequeña ______ robótica.",
+              "options": ["banana", "estrellita", "nube"],
+              "answer": "estrellita"
+            },
+            {
+              "text": "La inteligencia artificial tiene una mente muy ______.",
+              "options": ["lista", "ruidosa", "apestosa"],
+              "answer": "lista"
+            },
+            {
+              "text": "Los robots no comen, pero usan ______.",
+              "options": ["energía", "tenedor", "sopa"],
+              "answer": "energía"
+            },
+            {
+              "text": "Para aprender, Glimmy lee muchos ______.",
+              "options": ["libros", "datos", "cómics"],
+              "answer": "datos"
+            },
+            {
+              "text": "A Glimmy le encantan los quizzes y los ______.",
+              "options": ["pasteles", "acertijos", "sueños"],
+              "answer": "acertijos"
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "phrases": [
+            {
+              "text": "Un robot no duerme, pero puede ______.",
+              "options": ["roncar", "recargarse", "soñar"],
+              "answer": "recargarse"
+            },
+            {
+              "text": "Cuando ve una banana, Glimmy dice: ¡es una ______!",
+              "options": ["fruta", "zapatilla", "estrella"],
+              "answer": "fruta"
+            },
+            {
+              "text": "La IA ayuda a encontrar las ______ correctas.",
+              "options": ["respuestas", "zapatos", "caritas"],
+              "answer": "respuestas"
+            },
+            {
+              "text": "Para funcionar, Glimmy necesita un ______.",
+              "options": ["almohada", "ordenador", "batidora"],
+              "answer": "ordenador"
+            },
+            {
+              "text": "Glimmy habla con nosotros como un pequeño ______.",
+              "options": ["oso", "amigo", "caballo"],
+              "answer": "amigo"
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "phrases": [
+            {
+              "text": "Cuando Glimmy está feliz, ¡salta y hace una ______!",
+              "options": ["voltereta", "pizza", "silla"],
+              "answer": "voltereta"
+            },
+            {
+              "text": "La IA no tiene orejas, pero puede ______.",
+              "options": ["cantar", "escuchar", "bailar"],
+              "answer": "escuchar"
+            },
+            {
+              "text": "¡Glimmy piensa tan rápido como un ______!",
+              "options": ["perezoso", "tren", "cohete"],
+              "answer": "cohete"
+            },
+            {
+              "text": "Los robots caminan con sus pequeñas ______.",
+              "options": ["zapatillas", "patas", "ruedas"],
+              "answer": "ruedas"
+            },
+            {
+              "text": "Cuando acierta, Glimmy hace una gran ______.",
+              "options": ["fiesta", "compra", "risa"],
+              "answer": "fiesta"
+            }
+          ]
+        },
+        {
+          "id": 4,
+          "phrases": [
+            {
+              "text": "A Glimmy le encantan los juegos de ______.",
+              "options": ["memoria", "pelota", "nieve"],
+              "answer": "memoria"
+            },
+            {
+              "text": "Un robot no tiene corazón, pero puede ser muy ______.",
+              "options": ["amable", "pegajoso", "ruidoso"],
+              "answer": "amable"
+            },
+            {
+              "text": "¡Aprender con Glimmy es muy ______!",
+              "options": ["divertido", "difícil", "aburrido"],
+              "answer": "divertido"
+            },
+            {
+              "text": "Si fallas, Glimmy dice: ¡Inténtalo con una gran ______!",
+              "options": ["sonrisa", "patota", "grito"],
+              "answer": "sonrisa"
+            },
+            {
+              "text": "La inteligencia artificial también ayuda en la ______.",
+              "options": ["escuela", "pizza", "siesta"],
+              "answer": "escuela"
+            }
+          ]
+        },
+        {
+          "id": 5,
+          "phrases": [
+            {
+              "text": "¡Glimmy está lleno de ______ de colores!",
+              "options": ["paraguas", "luces", "hormigas"],
+              "answer": "luces"
+            },
+            {
+              "text": "Un robot puede ver con una ______ especial.",
+              "options": ["tenedor", "cámara", "banana"],
+              "answer": "cámara"
+            },
+            {
+              "text": "Cuando hay un problema, Glimmy usa su ______.",
+              "options": ["barriga", "lógica", "cola"],
+              "answer": "lógica"
+            },
+            {
+              "text": "A Glimmy le gusta explorar el espacio y las ______.",
+              "options": ["ideas", "patatas", "zapatillas"],
+              "answer": "ideas"
+            },
+            {
+              "text": "¡Un día Glimmy irá a la ______!",
+              "options": ["luna", "vaca", "manzana"],
+              "answer": "luna"
+            }
+          ]
+        },
+        {
+          "id": 6,
+          "phrases": [
+            {
+              "text": "Glimmy dice: la IA no es magia, es solo ______.",
+              "options": ["ciencia", "mermelada", "truco"],
+              "answer": "ciencia"
+            },
+            {
+              "text": "Glimmy trabaja en un equipo de ______ robóticos.",
+              "options": ["amigos", "paraguas", "robots"],
+              "answer": "amigos"
+            },
+            {
+              "text": "Si hay una duda, Glimmy la resuelve con un ______.",
+              "options": ["beso", "clic", "salto"],
+              "answer": "clic"
+            },
+            {
+              "text": "Con Glimmy se estudia, se juega y se ______.",
+              "options": ["ríe", "llora", "corre"],
+              "answer": "ríe"
+            },
+            {
+              "text": "Glimmy dice: ¡cada error es un nuevo ______!",
+              "options": ["descubrimiento", "tropiezo", "puerta"],
+              "answer": "descubrimiento"
+            }
+          ]
+        }
+      ]
     }
   }
 }

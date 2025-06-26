@@ -46,7 +46,7 @@ const backPathMap: Record<string, string> = {
   Memory: '/games',
   Guess: '/games',
   Quiz: '/games',
-  Story: '/games',
+  CompletePhrase: '/games',
 }
 
 // Se siamo in una pagina figlia, mostriamo il backPath

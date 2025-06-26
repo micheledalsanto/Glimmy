@@ -20,7 +20,7 @@
     </div>
 
     <p class="text-sm text-gray-500 mt-2 text-center">
-      © 2025 Glimmy World
+      © 2025 Glimmy Ai
     </p>
   </footer>
 </template>

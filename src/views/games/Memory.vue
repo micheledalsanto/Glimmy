@@ -17,7 +17,7 @@
       <button
         v-for="(card, index) in cards"
         :key="index"
-        class="w-20 h-20 sm:w-24 sm:h-24 text-3xl sm:text-4xl bg-white rounded-lg shadow-md flex items-center justify-center font-bold"
+        class="w-16 h-16 sm:w-24 sm:h-24 text-3xl sm:text-4xl bg-white rounded-lg shadow-md flex items-center justify-center font-bold"
         @click="flipCard(index)"
         :disabled="flipped.includes(index) || matched.includes(index)"
       >
