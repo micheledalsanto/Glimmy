@@ -1,0 +1,65 @@
+{
+  "home": {
+    "title": "¡Bienvenido al Mundo de Glimmy!",
+    "subtitle": "Explora el mundo de la inteligencia artificial divirtiéndote.",
+    "start": "Empezar"
+  },
+  "menu": {
+    "title": "¿Qué quieres hacer?",
+    "games": "Juegos",
+    "glossary": "Glosario",
+    "stories": "Historias",
+    "rewards": "Premios"
+  },
+  "games": {
+    "select": "¡Elige un juego!",
+    "memory": "Memoria IA",
+    "guess": "Adivina el Objeto IA",
+    "story": "Completa la Frase",
+    "comingSoon": "¡Próximamente!",
+    "memory": {
+      "title": "Memoria IA: ¡encuentra todas las parejas!",
+      "congrats": "¡Bien hecho!",
+      "completed": "¡Has completado el juego con éxito!",
+      "playAgain": "Jugar de nuevo",
+      "backMenu": "Volver al menú"
+    },
+    "guess": {
+      "question": "¿Qué ha reconocido Glimmy?",
+      "correct": "¡Correcto!",
+      "wrong": "¡Ups! Era",
+      "next": "Siguiente",
+      "congrats": "¡Buen trabajo!",
+      "score": "¡Has adivinado {score} objetos!",
+      "playAgain": "Jugar de nuevo",
+      "backMenu": "Volver al menú",
+      "items": {
+        "robot": "Robot",
+        "car": "Coche",
+        "dice": "Dado",
+        "heart": "Corazón",
+        "brain": "Cerebro",
+        "eye": "Ojo",
+        "lamp": "Lámpara",
+        "idea": "Idea",
+        "network": "Red",
+        "radar": "Radar",
+        "saturn": "Saturno",
+        "antenna": "Antena",
+        "dna": "ADN",
+        "ladder": "Escalera",
+        "electrons": "Electrones"
+      }
+    },
+    "story": {
+      "title": "Completa la Frase",
+      "instruction": "Escribe la palabra que falta:",
+      "correct": "¡Muy bien!",
+      "wrong": "¡Intenta otra vez!",
+      "next": "Siguiente",
+      "score": "¡Has completado {score} frases!",
+      "playAgain": "Reiniciar",
+      "backMenu": "Volver al menú"
+    }
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "home": {
+    "title": "Welcome to Glimmy World!",
+    "subtitle": "Explore the world of AI while having fun.",
+    "start": "Start"
+  },
+  "menu": {
+    "title": "What do you want to do?",
+    "games": "Games",
+    "glossary": "Glossary",
+    "stories": "Stories",
+    "rewards": "Rewards"
+  },
+  "games": {
+    "select": "Choose a game!",
+    "memory": "AI Memory",
+    "guess": "Guess the AI Object",
+    "story": "Complete the Sentence",
+    "comingSoon": "Coming soon!",
+    "memory": {
+      "title": "AI Memory: find all the pairs!",
+      "congrats": "Well done!",
+      "completed": "You completed the game successfully!",
+      "playAgain": "Play again",
+      "backMenu": "Back to menu"
+    },
+    "guess": {
+      "question": "What did Glimmy recognize?",
+      "correct": "Correct!",
+      "wrong": "Oops! It was",
+      "next": "Next",
+      "congrats": "Great job!",
+      "score": "You guessed {score} objects!",
+      "playAgain": "Play again",
+      "backMenu": "Back to menu",
+      "items": {
+        "robot": "Robot",
+        "car": "Car",
+        "dice": "Dice",
+        "heart": "Heart",
+        "brain": "Brain",
+        "eye": "Eye",
+        "lamp": "Lamp",
+        "idea": "Idea",
+        "network": "Network",
+        "radar": "Radar",
+        "saturn": "Saturn",
+        "antenna": "Antenna",
+        "dna": "DNA",
+        "ladder": "Ladder",
+        "electrons": "Electrons"
+      }
+    },
+    "story": {
+      "title": "Complete the Sentence",
+      "instruction": "Fill in the missing word:",
+      "correct": "Nice job!",
+      "wrong": "Try again!",
+      "next": "Next",
+      "score": "You completed {score} sentences!",
+      "playAgain": "Restart",
+      "backMenu": "Back to menu"
+    }
+  }
+}

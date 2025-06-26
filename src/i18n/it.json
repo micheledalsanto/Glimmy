@@ -1,0 +1,65 @@
+{
+  "home": {
+    "title": "Benvenuto in Glimmy World!",
+    "subtitle": "Scopri il mondo dell’intelligenza artificiale divertendoti.",
+    "start": "Inizia"
+  },
+  "menu": {
+    "title": "Cosa vuoi fare?",
+    "games": "Giochi",
+    "glossary": "Glossario",
+    "stories": "Storie",
+    "rewards": "Premi"
+  },
+  "games": {
+    "select": "Scegli un gioco!",
+    "memory": "Memory AI",
+    "guess": "Indovina l'Oggetto AI",
+    "story": "Completa la Frase",
+    "comingSoon": "In arrivo!",
+    "memory": {
+      "title": "Memory AI: trova tutte le coppie!",
+      "congrats": "Bravo!",
+      "completed": "Hai completato il gioco con successo!",
+      "playAgain": "Rigioca",
+      "backMenu": "Torna al menu"
+    },
+    "guess": {
+      "question": "Cosa ha riconosciuto Glimmy?",
+      "correct": "Giusto!",
+      "wrong": "Ops! Era",
+      "next": "Avanti",
+      "congrats": "Ben fatto!",
+      "score": "Hai indovinato {score} oggetti!",
+      "playAgain": "Rigioca",
+      "backMenu": "Torna al menu",
+      "items": {
+        "robot": "Robot",
+        "car": "Macchina",
+        "dice": "Dado",
+        "heart": "Cuore",
+        "brain": "Cervello",
+        "eye": "Occhio",
+        "lamp": "Lampada",
+        "idea": "Idea",
+        "network": "Rete",
+        "radar": "Radar",
+        "saturn": "Saturno",
+        "antenna": "Antenna",
+        "dna": "DNA",
+        "ladder": "Scala",
+        "electrons": "Elettroni"
+      }
+    },
+    "story": {
+      "title": "Completa la Frase",
+      "instruction": "Inserisci la parola mancante:",
+      "correct": "Ottimo lavoro!",
+      "wrong": "Riprova!",
+      "next": "Avanti",
+      "score": "Hai completato {score} frasi!",
+      "playAgain": "Ricomincia",
+      "backMenu": "Torna al menu"
+    }
+  }
+}

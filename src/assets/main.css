@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply font-sans font-normal text-base;
+}
+
+@media (max-width: 640px) {
+  .mobile-title-offset {
+    margin-top: 56px; /* pari all'altezza della barra sticky */
+  }
+}
