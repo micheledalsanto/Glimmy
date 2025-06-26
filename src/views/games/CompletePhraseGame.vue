@@ -2,10 +2,10 @@
   <main class="min-h-[90vh] bg-yellow-100 p-6 flex flex-col items-center justify-center text-center">
     <div class="max-w-2xl w-full">
       <h1 class="text-3xl font-bold text-yellow-900 mb-6">
-        {{ t('games.completePhrase.title') }}
+        {{ t('games.story.title') }}
       </h1>
 
-      <div v-if="currentPhrase" class="bg-white p-6 rounded-lg shadow-lg">
+      <div v-if="currentPhrase && !gameEnded" class="bg-white p-6 rounded-lg shadow-lg">
         <p class="text-xl font-semibold mb-4 text-gray-800">
           {{ currentPhrase.text }}
         </p>
@@ -32,12 +32,33 @@
           @click="nextPhrase"
           class="mt-4 px-6 py-2 bg-yellow-400 hover:bg-yellow-300 text-yellow-900 font-bold rounded-full transition-all duration-200"
         >
-          {{ t('common.next') }}
+          {{ t('games.story.next') }}
         </button>
 
         <p v-else-if="answered && currentIndex === currentSet.length - 1" class="mt-4 text-green-700 font-semibold">
-          🎉 {{ t('common.completed') }}
+          🎉 {{ t('games.story.correct') }}
         </p>
+      </div>
+
+      <div v-else-if="gameEnded" class="mt-6 text-center">
+        <p class="text-xl text-yellow-900 font-semibold mb-4">
+          🎉 {{ t('games.story.score', { score: currentSet.length }) }}
+        </p>
+
+        <div class="flex flex-col gap-4">
+          <button
+            @click="restartGame"
+            class="px-6 py-3 bg-yellow-500 hover:bg-yellow-400 text-white font-bold rounded-full shadow"
+          >
+            {{ t('games.story.playAgain') }}
+          </button>
+          <RouterLink
+            to="/menu"
+            class="px-6 py-3 bg-white border border-yellow-500 text-yellow-700 font-bold rounded-full hover:bg-yellow-100"
+          >
+            {{ t('games.story.backMenu') }}
+          </RouterLink>
+        </div>
       </div>
     </div>
   </main>
@@ -54,8 +75,10 @@ const currentSet = ref<Phrase[]>([])
 const currentIndex = ref(0)
 const selected = ref<string | null>(null)
 const answered = ref(false)
+const hasStarted = ref(false)
 
 const currentPhrase = computed(() => currentSet.value[currentIndex.value])
+const gameEnded = computed(() => currentIndex.value === currentSet.value.length - 1 && answered.value)
 
 const checkAnswer = (option: string) => {
   if (!answered.value) {
@@ -72,7 +95,6 @@ const nextPhrase = () => {
   }
 }
 
-// funzione centrale per caricare le frasi nella lingua attuale
 const setupPhrases = () => {
   const rawLang = locale.value
   const shortLang = rawLang.split("-")[0] as keyof typeof completePhraseSets
@@ -83,15 +105,21 @@ const setupPhrases = () => {
   currentIndex.value = 0
   selected.value = null
   answered.value = false
+  hasStarted.value = true
 }
 
-// carica all'avvio
+const restartGame = () => {
+  setupPhrases()
+}
+
 onMounted(() => {
   setupPhrases()
 })
 
-// cambia in tempo reale se cambia lingua
 watch(() => locale.value, () => {
+  const previousIndex = currentIndex.value
   setupPhrases()
+  currentIndex.value = Math.min(previousIndex, currentSet.value.length - 1)
 })
+
 </script>
