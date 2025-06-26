@@ -1,5 +1,34 @@
-# Vue 3 + TypeScript + Vite
+# 🌟 Glimmy – Learn AI Through Play!
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+**Glimmy** is a playful educational platform designed to introduce children to the world of Artificial Intelligence through games, animations, and a friendly guide: **Glimmy**, the bouncing robot star.
 
-Learn more about the recommended Project Setup and IDE Support in the [Vue Docs TypeScript Guide](https://vuejs.org/guide/typescript/overview.html#project-setup).
+---
+
+## ✨ Features
+
+- 🎮 Mini-games to learn AI concepts in a simple and intuitive way
+- 🌐 Multilingual support (English & Italian)
+- 📱 Mobile-friendly and responsive design
+- 🧠 Educational logic with instant feedback
+- 🤖 A recurring mascot that helps children learn and explore
+
+---
+
+## 🛠️ Built With
+
+- [Vue.js 3](https://vuejs.org/)
+- [Vite](https://vitejs.dev/)
+- [TailwindCSS 3](https://tailwindcss.com/)
+- [Vue Router](https://router.vuejs.org/)
+- [Vue I18n](https://vue-i18n.intlify.dev/)
+
+---
+
+## 📦 Getting Started
+
+```bash
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev

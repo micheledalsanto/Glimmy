@@ -3,7 +3,7 @@
     class="relative h-[90vh] overflow-hidden bg-gradient-to-b from-sky-200 via-indigo-100 to-fuchsia-100 flex flex-col items-center justify-center p-8 text-center"
   >
     <!-- Stelline animate -->
-    <div v-for="n in 20" :key="n" class="star" :style="randomStyle(n)" />
+    <div v-for="n in 20" :key="n" class="star" :class="randomStyle()" />
 
     <!-- Mascotte -->
     <img
@@ -41,19 +41,11 @@ const { t } = useI18n()
 const glimmy = new URL('../assets/images/glimmy.png', import.meta.url).href
 
 // Funzione per generare posizione e animazione random
-function randomStyle(index: number) {
-  const top = Math.random() * 90
-  const left = Math.random() * 100
-  const delay = Math.random() * 3
-  const size = 4 + Math.random() * 4
-  return {
-    top: `${top}%`,
-    left: `${left}%`,
-    animationDelay: `${delay}s`,
-    width: `${size}px`,
-    height: `${size}px`,
-  }
+function randomStyle() {
+  const styles = ['bg-red-200', 'bg-yellow-100', 'bg-lime-100']
+  return styles[Math.floor(Math.random() * styles.length)]
 }
+
 </script>
 
 <style scoped>

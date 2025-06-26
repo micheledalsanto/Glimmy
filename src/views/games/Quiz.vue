@@ -3,7 +3,7 @@
     class="relative h-[90vh] bg-gradient-to-br from-blue-100 to-pink-100 p-6 flex flex-col items-center justify-center text-center overflow-hidden"
   >
     <!-- Stelline animate -->
-    <div v-for="n in 20" :key="n" class="star" :style="randomStyle(n)" />
+    <div v-for="n in 20" :key="n" class="star" :class="randomStyle()" />
 
     <!-- Titolo -->
     <h2 class="text-3xl sm:text-4xl font-semibold text-indigo-700 mb-8 z-10">
@@ -136,18 +136,9 @@ function buttonClass(index: number) {
 }
 
 // ✨ Stelline animate
-function randomStyle(index: number) {
-  const top = Math.random() * 90
-  const left = Math.random() * 100
-  const delay = Math.random() * 3
-  const size = 4 + Math.random() * 4
-  return {
-    top: `${top}%`,
-    left: `${left}%`,
-    animationDelay: `${delay}s`,
-    width: `${size}px`,
-    height: `${size}px`
-  }
+function randomStyle() {
+  const styles = ['bg-red-200', 'bg-yellow-100', 'bg-lime-100']
+  return styles[Math.floor(Math.random() * styles.length)]
 }
 </script>
 

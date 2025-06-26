@@ -3,7 +3,7 @@
     class="min-h-[90vh] bg-gradient-to-br from-yellow-100 to-blue-100 text-center flex flex-col items-center justify-center p-4 sm:p-8 relative overflow-hidden"
   >
     <!-- Stelline animate -->
-    <div v-for="n in 20" :key="n" class="star" :style="randomStyle(n)" />
+    <div v-for="n in 20" :key="n" class="star" :class="randomStyle()" />
 
     <h2 class="text-4xl font-semibold text-blue-700 mb-10 sm:mt-0 mt-[56px]">
   {{ t('menu.title') }}
@@ -52,19 +52,11 @@ import ActivityCard from '../components/ActivityCard.vue'
 
 const { t } = useI18n()
 
-function randomStyle(index: number) {
-  const top = Math.random() * 90
-  const left = Math.random() * 100
-  const delay = Math.random() * 3
-  const size = 3 + Math.random() * 4
-  return {
-    top: `${top}%`,
-    left: `${left}%`,
-    animationDelay: `${delay}s`,
-    width: `${size}px`,
-    height: `${size}px`
-  }
+function randomStyle() {
+  const styles = ['bg-red-200', 'bg-yellow-100', 'bg-lime-100']
+  return styles[Math.floor(Math.random() * styles.length)]
 }
+
 </script>
 
 <style scoped>
