@@ -9,8 +9,10 @@ import Menu from '../views/Menu.vue'
 // Giochi
 import Games from '../views/games/Index.vue'
 import Memory from '../views/games/Memory.vue'
-import Guess from '../views/games/GuessAI.vue' // ← QUI
+import Guess from '../views/games/GuessAI.vue'
 import CompletePhrase from '../views/games/CompletePhraseGame.vue'
+import Quiz from '../views/games/Quiz.vue'
+import StoryFill from '../views/games/StoryFill.vue'
 
 const routes = [
   {
@@ -46,11 +48,41 @@ const routes = [
             component: Guess
           },
           {
-        path: 'complete-phrase',
-        name: 'CompletePhrase',
-        component: CompletePhrase
-        }
+            path: 'complete-phrase',
+            name: 'CompletePhrase',
+            component: CompletePhrase
+          },
+          {
+            path: 'quiz',
+            name: 'Quiz',
+            component: Quiz
+          },
+          {
+            path: 'story-fill',
+            name: 'StoryFill',
+            component: StoryFill
+          }
         ]
+      },
+      {
+        path: 'glossary',
+        name: 'Glossary',
+        component: () => import('../views/Glossary.vue')
+      },
+      {
+        path: 'stories',
+        name: 'Stories',
+        component: () => import('../views/Stories.vue')
+      },
+      {
+        path: 'rewards',
+        name: 'Rewards',
+        component: () => import('../views/Rewards.vue')
+      },
+      {
+        path: 'try-prompts',
+        name: 'TryPrompts',
+        component: () => import('../views/TryPrompts.vue')
       }
     ]
   }

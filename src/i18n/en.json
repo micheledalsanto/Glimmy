@@ -9,18 +9,45 @@
     "games": "Games",
     "glossary": "Glossary",
     "stories": "Stories",
-    "rewards": "Rewards"
+    "rewards": "Rewards",
+    "hint": "Choose an activity to start learning!"
   },
   "games": {
     "select": "Choose a game!",
-    "memory": "Memory AI",
-    "guess": "Guess the AI Object",
+    "description": "Learn by playing with artificial intelligence",
+    "memoryDesc": "Find emoji pairs and train your memory",
+    "guessDesc": "Guess what Glimmy generated",
+    "completePhraseDesc": "Complete sentences about Glimmy and AI",
+    "quizDesc": "Answer questions about artificial intelligence",
+    "storyFillDesc": "Create fun stories by filling in blanks",
+    "tryPromptDesc": "Learn to talk to artificial intelligence",
     "completePhrase": {
-  "title": "Complete the Phrase"
-},
-"tryPrompt": {
-  "title": "Try AI Prompts"
-},
+      "title": "Complete the Phrase"
+    },
+    "quiz": {
+      "title": "AI Quiz",
+      "question": "Question {current} of {total}",
+      "next": "Next Question",
+      "finish": "Finish",
+      "restart": "Try Again",
+      "score": "Your score: {score}/{total}",
+      "perfect": "Perfect score! 🌟",
+      "correctAnswer": "Correct answer!",
+      "wrongAnswer": "Wrong answer!",
+      "tryAgain": "Try again!"
+    },
+    "storyFill": {
+      "title": "Complete the Story",
+      "instruction": "Fill in the blanks!",
+      "selectWord": "Choose a word",
+      "reveal": "Show Story",
+      "playAgain": "New Story",
+      "yourStory": "Your Story!",
+      "wordsFilled": "words filled"
+    },
+    "tryPrompt": {
+      "title": "Try AI Prompts"
+    },
     "comingSoon": "Coming Soon!",
     "memory": {
       "title": "Memory AI: find all the pairs!",
@@ -30,6 +57,7 @@
       "backMenu": "Back to Menu"
     },
     "guess": {
+      "title": "Guess the AI Object",
       "question": "What image did Glimmy generate?",
       "correct": "Correct!",
       "wrong": "Oops! It was",
@@ -274,5 +302,134 @@
         }
       ]
     }
+  },
+  "glossary": {
+    "title": "AI Glossary",
+    "subtitle": "Learn about artificial intelligence terms",
+    "search": "Search terms...",
+    "categories": {
+      "all": "All",
+      "basics": "Basics",
+      "concepts": "Concepts",
+      "applications": "Applications"
+    },
+    "viewed": "{count} terms explored",
+    "noResults": "No terms found",
+    "flipCard": "Click to discover",
+    "clickToFlip": "Tap to flip",
+    "example": "Example",
+    "progress": "Glossary Progress",
+    "viewedTerms": "You've explored {count} terms!"
+  },
+  "stories": {
+    "title": "AI Stories",
+    "subtitle": "Discover Glimmy's world through interactive tales",
+    "selectStory": "Choose a story",
+    "continue": "Continue reading",
+    "startReading": "Start reading",
+    "readTime": "{minutes} min read",
+    "completed": "Story completed!",
+    "nextPage": "Next",
+    "prevPage": "Back",
+    "page": "Page {current} of {total}",
+    "backToLibrary": "Back to library",
+    "progress": "Progress: {percent}%",
+    "readAgain": "Read Again"
+  },
+  "rewards": {
+    "title": "Your Achievements",
+    "subtitle": "Unlock badges by playing and learning!",
+    "unlocked": "Unlocked!",
+    "locked": "Locked",
+    "progress": "Progress: {current}/{total}",
+    "unlockedOn": "Unlocked on {date}",
+    "howToUnlock": "How to unlock",
+    "filterByRarity": "Filter by rarity",
+    "allBadges": "All Badges",
+    "badgesLabel": "Badges",
+    "noBadgesInCategory": "No badges in this category",
+    "badges": {
+      "common": "Common",
+      "rare": "Rare",
+      "epic": "Epic",
+      "legendary": "Legendary"
+    },
+    "stats": {
+      "title": "Your Statistics",
+      "totalGames": "Games Played",
+      "streak": "Consecutive Days",
+      "points": "Total Points",
+      "sectionsVisited": "Sections Visited",
+      "badgesUnlocked": "Badges Unlocked"
+    },
+    "shareText": "I unlocked the '{badge}' badge on GlimmyAI! 🎉"
+  },
+  "prompts": {
+    "title": "Try AI Prompts",
+    "subtitle": "Learn how to talk to artificial intelligence",
+    "categories": {
+      "creative": "Creative",
+      "questions": "Questions",
+      "instructions": "Instructions"
+    },
+    "selectTemplate": "Choose a template",
+    "fillFields": "Fill in the blanks",
+    "tryIt": "Try it!",
+    "response": "Glimmy says:",
+    "tips": {
+      "title": "Prompt Tips",
+      "tip1": "Be clear and specific in your requests",
+      "tip2": "Include important details",
+      "tip3": "Try different words for better results",
+      "tip4": "Ask simple and direct questions"
+    },
+    "chooseTemplate": "Choose a template...",
+    "buildYourPrompt": "Build your prompt",
+    "preview": "Preview",
+    "tryAnother": "Try another",
+    "tryAgain": "Try again",
+    "templates": {
+      "draw": "Draw something",
+      "story": "Make up a story",
+      "question": "Ask about AI",
+      "howQuestion": "How does AI...",
+      "task": "Give an instruction",
+      "help": "Ask for help"
+    },
+    "fields": {
+      "subject": "What?",
+      "style": "Style?",
+      "character": "Character?",
+      "place": "Where?",
+      "topic": "Topic?",
+      "action": "Action?",
+      "object": "Object?",
+      "task": "Task?"
+    }
+  },
+  "common": {
+    "comingSoon": "Coming Soon!",
+    "playAgain": "Play Again",
+    "backToMenu": "Back to Menu",
+    "continue": "Continue",
+    "start": "Start",
+    "close": "Close",
+    "finish": "Finish",
+    "completed": "Completed",
+    "loading": "Loading...",
+    "error": "Error",
+    "retry": "Retry",
+    "yes": "Yes",
+    "no": "No",
+    "ok": "OK",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "share": "Share",
+    "copied": "Copied!",
+    "congratulations": "Congratulations!",
+    "wellDone": "Well done!",
+    "keepGoing": "Keep going!"
   }
 }

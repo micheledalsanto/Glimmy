@@ -4,7 +4,7 @@
     <div class="text-8xl mb-6">{{ currentItem.emoji }}</div>
 
     <!-- Domanda -->
-    <h2 class="text-3xl font-semibold text-blue-800 mb-8 sm:mt-0 mt-[56px]">
+    <h2 class="text-3xl font-semibold text-blue-800 mb-8 mt-16">
       {{ t('games.guess.question') }}
     </h2>
 

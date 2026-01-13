@@ -5,9 +5,9 @@
     <!-- Stelline animate -->
     <div v-for="n in 20" :key="n" class="star" :class="randomStyle()" />
 
-    <h2 class="text-3xl font-semibold text-green-800 mb-6 sm:mt-0 mt-[56px]">
-  {{ t('games.memory.title') }}
-</h2>
+    <h2 class="text-3xl font-semibold text-green-800 mb-6 mt-16">
+      {{ t('games.memory.title') }}
+    </h2>
 
     <!-- Griglia -->
     <div

@@ -9,18 +9,45 @@
     "games": "Giochi",
     "glossary": "Glossario",
     "stories": "Storie",
-    "rewards": "Premi"
+    "rewards": "Premi",
+    "hint": "Scegli un'attività per iniziare a imparare!"
   },
   "games": {
     "select": "Scegli un gioco!",
-    "memory": "Memory AI",
-    "guess": "Indovina l'Oggetto AI",
+    "description": "Impara giocando con l'intelligenza artificiale",
+    "memoryDesc": "Trova le coppie di emoji e allena la memoria",
+    "guessDesc": "Indovina cosa ha generato Glimmy",
+    "completePhraseDesc": "Completa le frasi su Glimmy e l'AI",
+    "quizDesc": "Rispondi alle domande sull'intelligenza artificiale",
+    "storyFillDesc": "Crea storie divertenti riempiendo gli spazi",
+    "tryPromptDesc": "Impara a parlare con l'intelligenza artificiale",
     "completePhrase": {
-    "title": "Completa la Frase"
-  },
-  "tryPrompt": {
-    "title": "Prova Prompt AI"
-  },
+      "title": "Completa la Frase"
+    },
+    "quiz": {
+      "title": "Quiz AI",
+      "question": "Domanda {current} di {total}",
+      "next": "Prossima Domanda",
+      "finish": "Termina",
+      "restart": "Riprova",
+      "score": "Il tuo punteggio: {score}/{total}",
+      "perfect": "Punteggio perfetto! 🌟",
+      "correctAnswer": "Risposta corretta!",
+      "wrongAnswer": "Risposta sbagliata!",
+      "tryAgain": "Riprova!"
+    },
+    "storyFill": {
+      "title": "Completa la Storia",
+      "instruction": "Riempi gli spazi!",
+      "selectWord": "Scegli una parola",
+      "reveal": "Mostra Storia",
+      "playAgain": "Nuova Storia",
+      "yourStory": "La Tua Storia!",
+      "wordsFilled": "parole inserite"
+    },
+    "tryPrompt": {
+      "title": "Prova Prompt AI"
+    },
     "comingSoon": "In arrivo!",
     "memory": {
       "title": "Memory AI: trova tutte le coppie!",
@@ -30,6 +57,7 @@
       "backMenu": "Torna al menu"
     },
     "guess": {
+      "title": "Indovina l'Oggetto AI",
       "question": "Che immagine ha generato Glimmy?",
       "correct": "Giusto!",
       "wrong": "Ops! Era",
@@ -274,5 +302,134 @@
         }
       ]
     }
+  },
+  "glossary": {
+    "title": "Glossario AI",
+    "subtitle": "Impara i termini dell'intelligenza artificiale",
+    "search": "Cerca termini...",
+    "categories": {
+      "all": "Tutti",
+      "basics": "Base",
+      "concepts": "Concetti",
+      "applications": "Applicazioni"
+    },
+    "viewed": "{count} termini esplorati",
+    "noResults": "Nessun termine trovato",
+    "flipCard": "Clicca per scoprire",
+    "clickToFlip": "Tocca per girare",
+    "example": "Esempio",
+    "progress": "Progresso Glossario",
+    "viewedTerms": "Hai esplorato {count} termini!"
+  },
+  "stories": {
+    "title": "Storie AI",
+    "subtitle": "Scopri il mondo di Glimmy attraverso racconti interattivi",
+    "selectStory": "Scegli una storia",
+    "continue": "Continua a leggere",
+    "startReading": "Inizia a leggere",
+    "readTime": "{minutes} min di lettura",
+    "completed": "Storia completata!",
+    "nextPage": "Avanti",
+    "prevPage": "Indietro",
+    "page": "Pagina {current} di {total}",
+    "backToLibrary": "Torna alla libreria",
+    "progress": "Progresso: {percent}%",
+    "readAgain": "Rileggi"
+  },
+  "rewards": {
+    "title": "I Tuoi Traguardi",
+    "subtitle": "Sblocca badge giocando e imparando!",
+    "unlocked": "Sbloccato!",
+    "locked": "Bloccato",
+    "progress": "Progresso: {current}/{total}",
+    "unlockedOn": "Sbloccato il {date}",
+    "howToUnlock": "Come sbloccare",
+    "filterByRarity": "Filtra per rarità",
+    "allBadges": "Tutti i Badge",
+    "badgesLabel": "Badge",
+    "noBadgesInCategory": "Nessun badge in questa categoria",
+    "badges": {
+      "common": "Comune",
+      "rare": "Raro",
+      "epic": "Epico",
+      "legendary": "Leggendario"
+    },
+    "stats": {
+      "title": "Le Tue Statistiche",
+      "totalGames": "Giochi Giocati",
+      "streak": "Giorni Consecutivi",
+      "points": "Punti Totali",
+      "sectionsVisited": "Sezioni Visitate",
+      "badgesUnlocked": "Badge Sbloccati"
+    },
+    "shareText": "Ho sbloccato il badge '{badge}' su GlimmyAI! 🎉"
+  },
+  "prompts": {
+    "title": "Prova i Prompt AI",
+    "subtitle": "Impara a parlare con l'intelligenza artificiale",
+    "categories": {
+      "creative": "Creativo",
+      "questions": "Domande",
+      "instructions": "Istruzioni"
+    },
+    "selectTemplate": "Scegli un modello",
+    "fillFields": "Compila gli spazi",
+    "tryIt": "Provalo!",
+    "response": "Glimmy dice:",
+    "tips": {
+      "title": "Consigli per i Prompt",
+      "tip1": "Sii chiaro e specifico nelle tue richieste",
+      "tip2": "Includi dettagli importanti",
+      "tip3": "Prova parole diverse per risultati migliori",
+      "tip4": "Fai domande semplici e dirette"
+    },
+    "chooseTemplate": "Scegli un modello...",
+    "buildYourPrompt": "Costruisci il tuo prompt",
+    "preview": "Anteprima",
+    "tryAnother": "Prova un altro",
+    "tryAgain": "Prova ancora",
+    "templates": {
+      "draw": "Disegna qualcosa",
+      "story": "Inventa una storia",
+      "question": "Chiedi sull'IA",
+      "howQuestion": "Come fa l'IA a...",
+      "task": "Dai un'istruzione",
+      "help": "Chiedi aiuto"
+    },
+    "fields": {
+      "subject": "Cosa?",
+      "style": "Stile?",
+      "character": "Personaggio?",
+      "place": "Dove?",
+      "topic": "Argomento?",
+      "action": "Azione?",
+      "object": "Oggetto?",
+      "task": "Compito?"
+    }
+  },
+  "common": {
+    "comingSoon": "In arrivo!",
+    "playAgain": "Gioca Ancora",
+    "backToMenu": "Torna al Menu",
+    "continue": "Continua",
+    "start": "Inizia",
+    "close": "Chiudi",
+    "finish": "Finisci",
+    "completed": "Completato",
+    "loading": "Caricamento...",
+    "error": "Errore",
+    "retry": "Riprova",
+    "yes": "Sì",
+    "no": "No",
+    "ok": "OK",
+    "cancel": "Annulla",
+    "save": "Salva",
+    "delete": "Elimina",
+    "edit": "Modifica",
+    "share": "Condividi",
+    "copied": "Copiato!",
+    "congratulations": "Congratulazioni!",
+    "wellDone": "Ottimo lavoro!",
+    "keepGoing": "Continua così!"
   }
 }

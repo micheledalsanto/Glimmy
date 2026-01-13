@@ -11,3 +11,136 @@ body {
     margin-top: 56px; /* pari all'altezza della barra sticky */
   }
 }
+
+/* ============================================
+   Glassmorphism Classes
+   ============================================ */
+
+/* Base glass card */
+.glass-card {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(12px) saturate(180%);
+  -webkit-backdrop-filter: blur(12px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  border-radius: 1rem;
+}
+
+/* Dark variant */
+.glass-card-dark {
+  background: rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(12px) saturate(150%);
+  -webkit-backdrop-filter: blur(12px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Glass button base */
+.glass-button {
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 0.75rem;
+}
+
+.glass-button:hover {
+  background: rgba(255, 255, 255, 0.35);
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.42);
+}
+
+.glass-button:active {
+  transform: translateY(0) scale(0.98);
+}
+
+/* Glass input */
+.glass-input {
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 0.75rem;
+  transition: all 0.3s ease;
+}
+
+.glass-input:focus {
+  background: rgba(255, 255, 255, 0.3);
+  border-color: rgba(255, 255, 255, 0.4);
+  outline: none;
+  box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+}
+
+/* 3D Card Effects */
+.card-3d {
+  transform-style: preserve-3d;
+  perspective: 1000px;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card-3d:hover {
+  transform: rotateY(5deg) rotateX(5deg) translateZ(10px);
+}
+
+/* Gradient Overlays */
+.gradient-overlay {
+  position: relative;
+  overflow: hidden;
+}
+
+.gradient-overlay::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 200%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+  animation: shimmer 3s infinite;
+}
+
+/* Pulse soft animation */
+@keyframes pulse-soft {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.9;
+  }
+}
+
+.pulse-soft {
+  animation: pulse-soft 2s ease-in-out infinite;
+}
+
+/* Shimmer overlay for cards */
+.shimmer-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.3) 50%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 2s ease-in-out;
+  pointer-events: none;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}

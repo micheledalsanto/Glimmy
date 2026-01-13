@@ -1,7 +1,7 @@
 <template>
   <main class="min-h-[90vh] bg-yellow-100 p-6 flex flex-col items-center justify-center text-center">
     <div class="max-w-2xl w-full">
-      <h1 class="text-3xl font-bold text-yellow-900 mb-6">
+      <h1 class="text-3xl font-bold text-yellow-900 mb-6 mt-16">
         {{ t('games.story.title') }}
       </h1>
 

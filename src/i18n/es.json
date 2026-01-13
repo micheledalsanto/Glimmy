@@ -9,17 +9,44 @@
     "games": "Juegos",
     "glossary": "Glosario",
     "stories": "Historias",
-    "rewards": "Premios"
+    "rewards": "Premios",
+    "hint": "¡Elige una actividad para empezar a aprender!"
   },
   "games": {
     "select": "¡Elige un juego!",
-    "memory": "Memory AI",
-    "guess": "Adivina el Objeto AI",
+    "description": "Aprende jugando con inteligencia artificial",
+    "memoryDesc": "Encuentra pares de emojis y entrena tu memoria",
+    "guessDesc": "Adivina qué generó Glimmy",
+    "completePhraseDesc": "Completa frases sobre Glimmy y la IA",
+    "quizDesc": "Responde preguntas sobre inteligencia artificial",
+    "storyFillDesc": "Crea historias divertidas rellenando espacios",
+    "tryPromptDesc": "Aprende a hablar con inteligencia artificial",
     "completePhrase": {
-    "title": "Completa la Frase"
+      "title": "Completa la Frase"
+    },
+    "quiz": {
+      "title": "Quiz de IA",
+      "question": "Pregunta {current} de {total}",
+      "next": "Siguiente Pregunta",
+      "finish": "Terminar",
+      "restart": "Intentar de nuevo",
+      "score": "Tu puntuación: {score}/{total}",
+      "perfect": "¡Puntuación perfecta! 🌟",
+      "correctAnswer": "¡Respuesta correcta!",
+      "wrongAnswer": "¡Respuesta incorrecta!",
+      "tryAgain": "¡Inténtalo de nuevo!"
+    },
+    "storyFill": {
+      "title": "Completa la Historia",
+      "instruction": "¡Rellena los espacios!",
+      "selectWord": "Elige una palabra",
+      "reveal": "Mostrar Historia",
+      "playAgain": "Nueva Historia",
+      "yourStory": "¡Tu Historia!",
+      "wordsFilled": "palabras completadas"
     },
     "tryPrompt": {
-    "title": "Prueba los Prompts de IA"
+      "title": "Prueba los Prompts de IA"
     },
     "comingSoon": "¡Próximamente!",
     "memory": {
@@ -30,6 +57,7 @@
       "backMenu": "Volver al menú"
     },
     "guess": {
+      "title": "Adivina el Objeto AI",
       "question": "¿Qué imagen ha creado Glimmy?",
       "correct": "¡Correcto!",
       "wrong": "¡Ups! Era",
@@ -274,5 +302,134 @@
         }
       ]
     }
+  },
+  "glossary": {
+    "title": "Glosario de IA",
+    "subtitle": "Aprende los términos de inteligencia artificial",
+    "search": "Buscar términos...",
+    "categories": {
+      "all": "Todos",
+      "basics": "Básicos",
+      "concepts": "Conceptos",
+      "applications": "Aplicaciones"
+    },
+    "viewed": "{count} términos explorados",
+    "noResults": "No se encontraron términos",
+    "flipCard": "Haz clic para descubrir",
+    "clickToFlip": "Toca para girar",
+    "example": "Ejemplo",
+    "progress": "Progreso del Glosario",
+    "viewedTerms": "¡Has explorado {count} términos!"
+  },
+  "stories": {
+    "title": "Historias de IA",
+    "subtitle": "Descubre el mundo de Glimmy a través de cuentos interactivos",
+    "selectStory": "Elige una historia",
+    "continue": "Continuar leyendo",
+    "startReading": "Empezar a leer",
+    "readTime": "{minutes} min de lectura",
+    "completed": "¡Historia completada!",
+    "nextPage": "Siguiente",
+    "prevPage": "Atrás",
+    "page": "Página {current} de {total}",
+    "backToLibrary": "Volver a la biblioteca",
+    "progress": "Progreso: {percent}%",
+    "readAgain": "Leer de Nuevo"
+  },
+  "rewards": {
+    "title": "Tus Logros",
+    "subtitle": "¡Desbloquea badges jugando y aprendiendo!",
+    "unlocked": "¡Desbloqueado!",
+    "locked": "Bloqueado",
+    "progress": "Progreso: {current}/{total}",
+    "unlockedOn": "Desbloqueado el {date}",
+    "howToUnlock": "Cómo desbloquear",
+    "filterByRarity": "Filtrar por rareza",
+    "allBadges": "Todos los Badges",
+    "badgesLabel": "Badges",
+    "noBadgesInCategory": "No hay badges en esta categoría",
+    "badges": {
+      "common": "Común",
+      "rare": "Raro",
+      "epic": "Épico",
+      "legendary": "Legendario"
+    },
+    "stats": {
+      "title": "Tus Estadísticas",
+      "totalGames": "Juegos Jugados",
+      "streak": "Días Consecutivos",
+      "points": "Puntos Totales",
+      "sectionsVisited": "Secciones Visitadas",
+      "badgesUnlocked": "Badges Desbloqueados"
+    },
+    "shareText": "¡He desbloqueado el badge '{badge}' en GlimmyAI! 🎉"
+  },
+  "prompts": {
+    "title": "Prueba los Prompts de IA",
+    "subtitle": "Aprende a hablar con la inteligencia artificial",
+    "categories": {
+      "creative": "Creativo",
+      "questions": "Preguntas",
+      "instructions": "Instrucciones"
+    },
+    "selectTemplate": "Elige una plantilla",
+    "fillFields": "Rellena los espacios",
+    "tryIt": "¡Pruébalo!",
+    "response": "Glimmy dice:",
+    "tips": {
+      "title": "Consejos para los Prompts",
+      "tip1": "Sé claro y específico en tus peticiones",
+      "tip2": "Incluye detalles importantes",
+      "tip3": "Prueba diferentes palabras para mejores resultados",
+      "tip4": "Haz preguntas simples y directas"
+    },
+    "chooseTemplate": "Elige una plantilla...",
+    "buildYourPrompt": "Construye tu prompt",
+    "preview": "Vista previa",
+    "tryAnother": "Prueba otro",
+    "tryAgain": "Prueba otra vez",
+    "templates": {
+      "draw": "Dibuja algo",
+      "story": "Inventa una historia",
+      "question": "Pregunta sobre IA",
+      "howQuestion": "¿Cómo hace la IA...?",
+      "task": "Da una instrucción",
+      "help": "Pide ayuda"
+    },
+    "fields": {
+      "subject": "¿Qué?",
+      "style": "¿Estilo?",
+      "character": "¿Personaje?",
+      "place": "¿Dónde?",
+      "topic": "¿Tema?",
+      "action": "¿Acción?",
+      "object": "¿Objeto?",
+      "task": "¿Tarea?"
+    }
+  },
+  "common": {
+    "comingSoon": "¡Próximamente!",
+    "playAgain": "Jugar de Nuevo",
+    "backToMenu": "Volver al Menú",
+    "continue": "Continuar",
+    "start": "Comenzar",
+    "close": "Cerrar",
+    "finish": "Terminar",
+    "completed": "Completado",
+    "loading": "Cargando...",
+    "error": "Error",
+    "retry": "Reintentar",
+    "yes": "Sí",
+    "no": "No",
+    "ok": "OK",
+    "cancel": "Cancelar",
+    "save": "Guardar",
+    "delete": "Eliminar",
+    "edit": "Editar",
+    "share": "Compartir",
+    "copied": "¡Copiado!",
+    "congratulations": "¡Felicidades!",
+    "wellDone": "¡Buen trabajo!",
+    "keepGoing": "¡Sigue así!"
   }
 }

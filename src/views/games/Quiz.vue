@@ -6,7 +6,7 @@
     <div v-for="n in 20" :key="n" class="star" :class="randomStyle()" />
 
     <!-- Titolo -->
-    <h2 class="text-3xl sm:text-4xl font-semibold text-indigo-700 mb-8 z-10">
+    <h2 class="text-3xl sm:text-4xl font-semibold text-indigo-700 mb-8 z-10 mt-16">
       {{ t('quiz.title') }}
     </h2>
 
