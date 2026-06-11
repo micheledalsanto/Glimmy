@@ -5,7 +5,7 @@ export interface StoryFillBlank {
 }
 
 export interface StoryFillSegment {
-  text: string
+  text?: string
   blank?: StoryFillBlank
 }
 

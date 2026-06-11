@@ -1,66 +1,69 @@
 <template>
-  <AnimatedBackground theme="rainbow" :particles="true">
-    <div class="menu-container min-h-[90vh] flex flex-col items-center justify-center p-6 sm:p-8">
+  <AnimatedBackground>
+    <div class="page">
       <!-- Header -->
-      <div class="text-center mb-12 mt-16">
-        <h1 class="text-5xl sm:text-6xl font-bold text-white mb-4 animate-float">
-          {{ t('menu.title') }}
-        </h1>
-        <div class="glimmy-mascot text-8xl mb-4">
-          ✨
-        </div>
+      <div class="text-center mb-12 animate-rise-in">
+        <h1 class="page-title">{{ t('menu.title') }}</h1>
+        <p class="page-subtitle">{{ t('menu.hint') }}</p>
       </div>
 
       <!-- Menu Grid -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full max-w-4xl">
-        <!-- Games -->
-        <RouterLink to="/games" class="menu-item">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 stagger">
+        <RouterLink to="/games" class="block">
           <ActivityCard
-            icon="🎮"
+            icon="gamepad"
             :label="t('menu.games')"
-            variant="primary"
-            :glow="true"
+            :description="t('menu.gamesDesc')"
+            variant="sun"
           />
         </RouterLink>
 
-        <!-- Glossary -->
-        <RouterLink to="/glossary" class="menu-item">
+        <RouterLink to="/glossary" class="block">
           <ActivityCard
-            icon="📖"
+            icon="book"
             :label="t('menu.glossary')"
-            variant="secondary"
-            :glow="true"
+            :description="t('menu.glossaryDesc')"
+            variant="sky"
           />
         </RouterLink>
 
-        <!-- Stories -->
-        <RouterLink to="/stories" class="menu-item">
+        <RouterLink to="/stories" class="block">
           <ActivityCard
-            icon="🎧"
+            icon="headphones"
             :label="t('menu.stories')"
-            variant="accent"
-            :glow="true"
+            :description="t('menu.storiesDesc')"
+            variant="mint"
           />
         </RouterLink>
 
-        <!-- Rewards -->
-        <RouterLink to="/rewards" class="menu-item">
+        <RouterLink to="/rewards" class="block">
           <ActivityCard
-            icon="🏆"
+            icon="trophy"
             :label="t('menu.rewards')"
-            variant="success"
-            :glow="true"
+            :description="t('menu.rewardsDesc')"
+            variant="coral"
           />
         </RouterLink>
       </div>
 
-      <!-- Footer Hint -->
-      <div class="mt-12 text-center">
-        <GlassCard depth="shallow" class="inline-block">
-          <p class="px-6 py-3 text-white/80 text-sm">
-            💡 {{ t('menu.hint') }}
-          </p>
-        </GlassCard>
+      <!-- Riepilogo progressi rapido -->
+      <div class="mt-10 flex justify-center animate-rise-in" style="animation-delay: 0.5s">
+        <div class="card inline-flex items-center gap-6 px-6 py-3.5">
+          <div class="flex items-center gap-2 text-sm font-semibold text-ink">
+            <AppIcon name="star" :size="18" class="text-sun-400" />
+            {{ t('menu.points', { points: progress.totalPoints }) }}
+          </div>
+          <div class="w-px h-5 bg-ink/10" />
+          <div class="flex items-center gap-2 text-sm font-semibold text-ink">
+            <AppIcon name="trophy" :size="18" class="text-coral-400" />
+            {{ t('menu.badges', { count: progress.unlockedBadges.length }) }}
+          </div>
+          <div class="w-px h-5 bg-ink/10" />
+          <div class="flex items-center gap-2 text-sm font-semibold text-ink">
+            <AppIcon name="flame" :size="18" class="text-sky2-400" />
+            {{ t('menu.streak', { days: progress.streakDays }) }}
+          </div>
+        </div>
       </div>
     </div>
   </AnimatedBackground>
@@ -71,53 +74,9 @@ import { useI18n } from 'vue-i18n'
 import { RouterLink } from 'vue-router'
 import AnimatedBackground from '../components/AnimatedBackground.vue'
 import ActivityCard from '../components/ActivityCard.vue'
-import GlassCard from '../components/GlassCard.vue'
+import AppIcon from '../components/AppIcon.vue'
+import { useProgress } from '../composables/useProgress'
 
 const { t } = useI18n()
+const { progress } = useProgress()
 </script>
-
-<style scoped>
-.menu-container {
-  animation: fadeIn 0.6s ease;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-.glimmy-mascot {
-  animation: float 3s ease-in-out infinite;
-}
-
-@keyframes float {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-20px);
-  }
-}
-
-.animate-float {
-  animation: float 3s ease-in-out infinite;
-}
-
-.menu-item {
-  display: block;
-  text-decoration: none;
-  transition: transform 0.3s ease;
-}
-
-.menu-item:hover {
-  transform: translateY(-4px);
-}
-
-.menu-item:active {
-  transform: translateY(-2px);
-}
-</style>

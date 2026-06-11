@@ -1,20 +1,16 @@
 <template>
-  <AnimatedBackground theme="yellow-pink" :particles="true">
-    <div class="container mx-auto p-6 max-w-7xl">
+  <AnimatedBackground>
+    <div class="page max-w-6xl">
       <!-- Library Mode -->
-      <div v-if="!currentStory" class="story-library">
+      <div v-if="!currentStory">
         <!-- Header -->
-        <div class="mb-8 mt-16">
-          <h1 class="text-5xl font-bold text-white mb-4">
-            {{ $t('stories.title') }}
-          </h1>
-          <p class="text-xl text-white/80">
-            {{ $t('stories.subtitle') }}
-          </p>
+        <div class="mb-10 text-center animate-rise-in">
+          <h1 class="page-title">{{ $t('stories.title') }}</h1>
+          <p class="page-subtitle">{{ $t('stories.subtitle') }}</p>
         </div>
 
         <!-- Stories Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 stagger">
           <StoryCard
             v-for="story in stories"
             :key="story.id"
@@ -26,145 +22,124 @@
       </div>
 
       <!-- Reader Mode -->
-      <div v-else class="story-reader">
+      <div v-else class="max-w-3xl mx-auto">
         <!-- Back Button -->
-        <GlassButton
-          variant="secondary"
-          size="md"
-          icon="←"
-          @click="closeStory"
-          class="mb-6"
-        >
-          {{ $t('stories.backToLibrary') }}
+        <GlassButton variant="ghost" size="sm" @click="closeStory" class="mb-6">
+          ← {{ $t('stories.backToLibrary') }}
         </GlassButton>
 
         <!-- Story Header -->
         <div class="mb-6 text-center">
-          <span class="text-6xl mb-4 block animate-float">{{ currentStory.cover }}</span>
-          <h2 class="text-4xl font-bold text-white mb-2">
+          <span class="text-6xl mb-3 block animate-float">{{ currentStory.cover }}</span>
+          <h2 class="font-display text-3xl font-bold text-ink mb-1">
             {{ currentStory.title }}
           </h2>
-          <p class="text-lg text-white/80 mb-4">
-            {{ currentStory.description }}
-          </p>
-          <p class="text-sm text-white/60">
+          <p class="text-ink-soft">
             {{ $t('stories.page', { current: currentPage + 1, total: currentStory.pages.length }) }}
           </p>
         </div>
 
         <!-- Story Page -->
-        <transition :name="transitionName" mode="out-in">
-          <GlassCard
-            :key="currentPage"
-            depth="deep"
-            class="story-page mb-8"
-          >
-            <div class="p-8 md:p-12 min-h-[400px] flex flex-col items-center justify-center">
-              <div
-                class="page-image text-8xl mb-8"
-                :class="currentPageData.animation || 'animate-fadeIn'"
-              >
-                {{ currentPageData.image }}
-              </div>
-              <p class="text-2xl text-white leading-relaxed text-center">
-                {{ currentPageData.text }}
-              </p>
+        <Transition :name="transitionName" mode="out-in">
+          <div :key="currentPage" class="card relative mb-6 p-8 md:p-12 min-h-[380px] flex flex-col items-center justify-center">
+            <!-- Narrazione vocale -->
+            <button
+              v-if="ttsSupported"
+              class="tts-btn absolute top-4 right-4"
+              :class="{ speaking: isSpeaking }"
+              :aria-label="$t('common.readAloud')"
+              @click="readPage"
+            >
+              <AppIcon :name="isSpeaking ? 'speaker-off' : 'speaker'" :size="20" />
+            </button>
+
+            <div class="text-8xl mb-8 animate-float">
+              {{ currentPageData.image }}
             </div>
-          </GlassCard>
-        </transition>
+            <p class="text-xl sm:text-2xl text-ink leading-relaxed text-center">
+              {{ currentPageData.text }}
+            </p>
+          </div>
+        </Transition>
 
         <!-- Navigation Controls -->
-        <div class="controls flex items-center justify-between mb-8">
-          <GlassButton
-            @click="prevPage"
-            :disabled="isFirstPage"
-            variant="secondary"
-            size="lg"
-            icon="←"
-          >
-            {{ $t('stories.prevPage') }}
+        <div class="flex items-center justify-between gap-3 mb-6">
+          <GlassButton @click="prevPage" :disabled="isFirstPage" variant="ghost" size="md">
+            ← {{ $t('stories.prevPage') }}
           </GlassButton>
 
-          <div class="page-indicator glass-card px-6 py-3">
-            <span class="text-xl text-white font-semibold">
-              {{ currentPage + 1 }} / {{ currentStory.pages.length }}
-            </span>
-          </div>
+          <span class="font-display font-bold text-ink-soft">
+            {{ currentPage + 1 }} / {{ currentStory.pages.length }}
+          </span>
 
           <GlassButton
             @click="nextPage"
-            :disabled="isLastPage"
             :variant="isLastPage ? 'success' : 'primary'"
-            size="lg"
-            :icon="isLastPage ? '✓' : '→'"
+            size="md"
           >
-            {{ isLastPage ? $t('common.finish') : $t('stories.nextPage') }}
+            {{ isLastPage ? $t('common.finish') : $t('stories.nextPage') }} →
           </GlassButton>
         </div>
 
         <!-- Progress Bar -->
-        <div class="progress-bar-container">
-          <div class="w-full h-3 bg-white/10 rounded-full overflow-hidden">
+        <div>
+          <div class="w-full h-2.5 bg-ink/5 rounded-full overflow-hidden">
             <div
-              class="h-full bg-gradient-to-r from-yellow-400 to-pink-500 transition-all duration-500"
+              class="h-full bg-sun-400 rounded-full transition-all duration-500"
               :style="{ width: progressPercent + '%' }"
-            ></div>
+            />
           </div>
-          <p class="text-sm text-white/70 text-center mt-2">
+          <p class="text-sm text-ink-faint text-center mt-2">
             {{ $t('stories.progress', { percent: Math.round(progressPercent) }) }}
           </p>
         </div>
 
         <!-- Completion Celebration -->
-        <transition name="fade">
-          <div v-if="showCompletionModal" class="completion-modal fixed inset-0 flex items-center justify-center z-50 p-6">
-            <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" @click="closeCompletionModal"></div>
-            <GlassCard depth="deep" class="relative z-10 max-w-md w-full">
-              <div class="p-8 text-center">
-                <div class="text-8xl mb-4 animate-bounce">🎉</div>
-                <h3 class="text-3xl font-bold text-white mb-4">
-                  {{ $t('stories.completed') }}
-                </h3>
-                <p class="text-xl text-white/80 mb-6">
-                  {{ $t('common.wellDone') }}
-                </p>
-                <div class="flex gap-4">
-                  <GlassButton
-                    variant="secondary"
-                    size="lg"
-                    @click="closeStory"
-                    class="flex-1"
-                  >
-                    {{ $t('stories.backToLibrary') }}
-                  </GlassButton>
-                  <GlassButton
-                    variant="primary"
-                    size="lg"
-                    @click="restartStory"
-                    class="flex-1"
-                  >
-                    {{ $t('common.playAgain') }}
-                  </GlassButton>
-                </div>
+        <Transition name="fade">
+          <div v-if="showCompletionModal" class="fixed inset-0 flex items-center justify-center z-50 p-6">
+            <div class="absolute inset-0 bg-ink/30 backdrop-blur-sm" @click="closeCompletionModal" />
+            <div class="card relative z-10 max-w-md w-full p-8 text-center animate-pop-in">
+              <div class="text-7xl mb-4 animate-wiggle inline-block">🎉</div>
+              <h3 class="font-display text-3xl font-bold text-ink mb-2">
+                {{ $t('stories.completed') }}
+              </h3>
+              <p class="text-lg text-ink-soft mb-6">
+                {{ $t('common.wellDone') }}
+              </p>
+              <div class="flex gap-3 justify-center flex-wrap">
+                <GlassButton variant="primary" size="md" @click="restartStory">
+                  {{ $t('common.playAgain') }}
+                </GlassButton>
+                <GlassButton variant="ghost" size="md" @click="closeStory">
+                  {{ $t('stories.backToLibrary') }}
+                </GlassButton>
               </div>
-            </GlassCard>
+            </div>
           </div>
-        </transition>
+        </Transition>
       </div>
     </div>
   </AnimatedBackground>
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, watch } from 'vue'
+import { ref, computed, onMounted, onUnmounted, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import AnimatedBackground from '../components/AnimatedBackground.vue'
+import AppIcon from '../components/AppIcon.vue'
 import GlassButton from '../components/GlassButton.vue'
-import GlassCard from '../components/GlassCard.vue'
 import StoryCard from '../components/StoryCard.vue'
-import { storiesData, type Story, type StoryPage } from '../data/stories'
+import { storiesData, type StoryPage } from '../data/stories'
+import { useProgress } from '../composables/useProgress'
+import { useSpeech } from '../composables/useSpeech'
+import { useSound } from '../composables/useSound'
+import { useGlimmy } from '../composables/useGlimmy'
 
-const { locale } = useI18n()
+const { locale, t } = useI18n()
+const { recordCollectionItem, recordGameComplete } = useProgress()
+const { speak, stop, isSpeaking, supported: ttsSupported } = useSpeech()
+const { playFanfare } = useSound()
+const { react, say } = useGlimmy()
 
 // Get stories for current locale
 const stories = computed(() => storiesData[locale.value] || storiesData.it)
@@ -175,28 +150,37 @@ const currentPage = ref<number>(0)
 const transitionName = ref<string>('slide-left')
 const showCompletionModal = ref<boolean>(false)
 
-// Get current story object
 const currentStory = computed(() =>
   currentStoryId.value ? stories.value.find(s => s.id === currentStoryId.value) : null
 )
 
-// Get current page data
 const currentPageData = computed((): StoryPage => {
   if (!currentStory.value) return { text: '', image: '' }
   return currentStory.value.pages[currentPage.value] || { text: '', image: '' }
 })
 
-// Page navigation helpers
 const isFirstPage = computed(() => currentPage.value === 0)
 const isLastPage = computed(() =>
   currentStory.value ? currentPage.value === currentStory.value.pages.length - 1 : false
 )
 
-// Progress calculation
 const progressPercent = computed(() => {
   if (!currentStory.value) return 0
   return ((currentPage.value + 1) / currentStory.value.pages.length) * 100
 })
+
+// Narrazione vocale della pagina
+const readPage = () => {
+  if (isSpeaking.value) {
+    stop()
+  } else {
+    speak(currentPageData.value.text, locale.value)
+  }
+}
+
+// Ferma la narrazione quando si cambia pagina o si esce
+watch(currentPage, () => stop())
+onUnmounted(() => stop())
 
 // Story progress tracking
 interface StoryProgress {
@@ -210,10 +194,11 @@ interface StoryProgress {
 const storyProgress = ref<StoryProgress>({})
 const STORAGE_KEY = 'glimmy-stories-progress'
 
-// Get story progress
 const getStoryProgress = (storyId: string): number => {
   const progress = storyProgress.value[storyId]
   if (!progress) return 0
+
+  if (progress.completed) return 100
 
   const story = stories.value.find(s => s.id === storyId)
   if (!story) return 0
@@ -221,11 +206,9 @@ const getStoryProgress = (storyId: string): number => {
   return ((progress.currentPage + 1) / story.pages.length) * 100
 }
 
-// Open story
 const openStory = (storyId: string) => {
   currentStoryId.value = storyId
 
-  // Load saved progress
   const progress = storyProgress.value[storyId]
   if (progress && !progress.completed) {
     currentPage.value = progress.currentPage
@@ -234,15 +217,14 @@ const openStory = (storyId: string) => {
   }
 }
 
-// Close story
 const closeStory = () => {
+  stop()
   saveProgress()
   currentStoryId.value = null
   currentPage.value = 0
   showCompletionModal.value = false
 }
 
-// Page navigation
 const nextPage = () => {
   if (isLastPage.value) {
     completeStory()
@@ -261,7 +243,6 @@ const prevPage = () => {
   }
 }
 
-// Complete story
 const completeStory = () => {
   if (!currentStoryId.value) return
 
@@ -273,9 +254,15 @@ const completeStory = () => {
 
   saveProgress()
   showCompletionModal.value = true
+  playFanfare()
+  react('celebrate', 3000)
+  say(t('glimmy.storyDone'), { durationMs: 3500 })
+
+  // Badge "Lettore Appassionato" + statistiche
+  recordCollectionItem('stories', currentStoryId.value)
+  recordGameComplete('stories')
 }
 
-// Restart story
 const restartStory = () => {
   currentPage.value = 0
   showCompletionModal.value = false
@@ -318,114 +305,55 @@ const saveProgress = () => {
   }
 }
 
-// Watch for page changes to autosave
-watch(currentPage, () => {
-  if (currentStoryId.value) {
-    saveProgress()
-  }
-})
-
-// Load progress on mount
 onMounted(() => {
   loadProgress()
 })
 </script>
 
 <style scoped>
-.story-page {
-  min-height: 400px;
+.tts-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.6rem;
+  height: 2.6rem;
+  border-radius: 9999px;
+  background: #eef6fc;
+  color: #2a6ba5;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.18s ease, background 0.18s ease;
 }
 
-.page-image {
-  animation-duration: 0.6s;
-  animation-fill-mode: both;
+.tts-btn:hover {
+  background: #d8ebf8;
+  transform: scale(1.08);
 }
 
-.animate-fadeIn {
-  animation-name: fadeIn;
+.tts-btn.speaking {
+  background: #fff8e6;
+  color: #c4830a;
+  animation: pulse-speak 1.2s ease-in-out infinite;
 }
 
-.animate-slideUp {
-  animation-name: slideUp;
+@keyframes pulse-speak {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(247, 179, 43, 0.4); }
+  50% { box-shadow: 0 0 0 8px rgba(247, 179, 43, 0); }
 }
 
-.animate-bounce {
-  animation: bounce 1s ease infinite;
-}
-
-.animate-float {
-  animation: float 3s ease-in-out infinite;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes float {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
-}
-
-@keyframes bounce {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-20px);
-  }
-}
-
-/* Page transitions */
+/* Transizioni pagina */
 .slide-left-enter-active,
 .slide-left-leave-active,
 .slide-right-enter-active,
 .slide-right-leave-active {
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
-.slide-left-enter-from {
-  opacity: 0;
-  transform: translateX(100px);
-}
+.slide-left-enter-from { opacity: 0; transform: translateX(40px); }
+.slide-left-leave-to { opacity: 0; transform: translateX(-40px); }
+.slide-right-enter-from { opacity: 0; transform: translateX(-40px); }
+.slide-right-leave-to { opacity: 0; transform: translateX(40px); }
 
-.slide-left-leave-to {
-  opacity: 0;
-  transform: translateX(-100px);
-}
-
-.slide-right-enter-from {
-  opacity: 0;
-  transform: translateX(-100px);
-}
-
-.slide-right-leave-to {
-  opacity: 0;
-  transform: translateX(100px);
-}
-
-/* Fade transition for modal */
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.3s ease;
@@ -434,9 +362,5 @@ onMounted(() => {
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
-}
-
-.completion-modal {
-  animation: fadeIn 0.3s ease;
 }
 </style>

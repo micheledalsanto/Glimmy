@@ -1,0 +1,69 @@
+- generic [ref=e3]:
+  - banner:
+    - link "Atrás" [ref=e4] [cursor=pointer]:
+      - /url: /menu
+      - img [ref=e5]
+    - button "Activar o desactivar sonidos" [ref=e7] [cursor=pointer]:
+      - img [ref=e8]
+  - main [ref=e11]:
+    - generic [ref=e15]:
+      - generic [ref=e16]:
+        - heading "Historias de IA" [level=1] [ref=e17]
+        - paragraph [ref=e18]: Descubre el mundo de Glimmy a través de cuentos interactivos
+      - generic [ref=e19]:
+        - generic [ref=e20] [cursor=pointer]:
+          - generic [ref=e22]: 🌟
+          - heading "El Primer Día de Glimmy" [level=3] [ref=e23]
+          - paragraph [ref=e24]: Glimmy se despierta en una computadora y descubre lo que significa ser una IA
+          - generic [ref=e25]:
+            - generic [ref=e26]: ⏱️ 5 min de lectura
+            - generic [ref=e27]: 👶 5-7
+          - paragraph [ref=e31]: 25% Completado
+          - button "Continuar leyendo" [ref=e32]:
+            - generic [ref=e33]: Continuar leyendo
+        - generic [ref=e34] [cursor=pointer]:
+          - generic [ref=e36]: 🔍
+          - heading "El Misterio de los Datos Perdidos" [level=3] [ref=e37]
+          - paragraph [ref=e38]: Glimmy ayuda a un robot a encontrar datos perdidos para aprender a reconocer flores
+          - generic [ref=e39]:
+            - generic [ref=e40]: ⏱️ 7 min de lectura
+            - generic [ref=e41]: 👶 8-10
+          - button "Empezar a leer" [ref=e42]:
+            - generic [ref=e43]: Empezar a leer
+        - generic [ref=e44] [cursor=pointer]:
+          - generic [ref=e46]: 🦾
+          - heading "Amigos Robot" [level=3] [ref=e47]
+          - paragraph [ref=e48]: Glimmy conoce diferentes tipos de IA y descubre sus superpoderes
+          - generic [ref=e49]:
+            - generic [ref=e50]: ⏱️ 6 min de lectura
+            - generic [ref=e51]: 👶 5-7
+          - button "Empezar a leer" [ref=e52]:
+            - generic [ref=e53]: Empezar a leer
+        - generic [ref=e54] [cursor=pointer]:
+          - generic [ref=e56]: 🔮
+          - heading "La Magia de la Predicción" [level=3] [ref=e57]
+          - paragraph [ref=e58]: Glimmy aprende a ver patrones y hacer predicciones del tiempo
+          - generic [ref=e59]:
+            - generic [ref=e60]: ⏱️ 6 min de lectura
+            - generic [ref=e61]: 👶 8-10
+          - button "Empezar a leer" [ref=e62]:
+            - generic [ref=e63]: Empezar a leer
+        - generic [ref=e64] [cursor=pointer]:
+          - generic [ref=e66]: 🎓
+          - heading "Glimmy va a la Escuela" [level=3] [ref=e67]
+          - paragraph [ref=e68]: Glimmy descubre cómo la IA ayuda a los estudiantes a aprender
+          - generic [ref=e69]:
+            - generic [ref=e70]: ⏱️ 5 min de lectura
+            - generic [ref=e71]: 👶 5-7
+          - button "Empezar a leer" [ref=e72]:
+            - generic [ref=e73]: Empezar a leer
+  - contentinfo [ref=e74]:
+    - generic [ref=e75]:
+      - button "it" [ref=e76] [cursor=pointer]:
+        - img "it" [ref=e77]
+      - button "en" [ref=e78] [cursor=pointer]:
+        - img "en" [ref=e79]
+      - button "es" [ref=e80] [cursor=pointer]:
+        - img "es" [ref=e81]
+    - paragraph [ref=e82]: © 2026 Glimmy AI
+  - img "Glimmy" [ref=e84] [cursor=pointer]

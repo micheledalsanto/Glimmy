@@ -1,158 +1,245 @@
 <template>
-  <div
-    class="relative h-[90vh] bg-gradient-to-br from-blue-100 to-pink-100 p-6 flex flex-col items-center justify-center text-center overflow-hidden"
-  >
-    <!-- Stelline animate -->
-    <div v-for="n in 20" :key="n" class="star" :class="randomStyle()" />
-
-    <!-- Titolo -->
-    <h2 class="text-3xl sm:text-4xl font-semibold text-indigo-700 mb-8 z-10 mt-16">
-      {{ t('quiz.title') }}
-    </h2>
-
-    <!-- Domanda corrente -->
-    <div class="bg-white p-6 rounded-2xl shadow-xl w-full max-w-xl z-10">
-      <p class="text-xl font-medium text-gray-800 mb-6">
-        {{ currentQuestion.question }}
-      </p>
-
-      <div class="flex flex-col gap-4">
-        <button
-          v-for="(option, i) in currentQuestion.options"
-          :key="i"
-          :disabled="answered"
-          @click="selectAnswer(i)"
-          :class="buttonClass(i)"
-        >
-          {{ option }}
-        </button>
+  <AnimatedBackground>
+    <div class="page max-w-2xl flex flex-col items-center">
+      <div class="text-center mb-8 animate-rise-in">
+        <h2 class="page-title text-3xl sm:text-4xl">{{ t('games.quiz.title') }}</h2>
       </div>
 
-      <!-- Avanti -->
-      <button
-        v-if="answered && currentIndex < questions.length - 1"
-        @click="nextQuestion"
-        class="mt-6 px-6 py-3 bg-sky-500 text-white rounded-full font-semibold shadow-md hover:bg-sky-400 transition"
-      >
-        {{ t('quiz.next') }}
-      </button>
+      <!-- Barra progresso -->
+      <div v-if="!finished" class="w-full mb-6">
+        <div class="flex justify-between text-sm font-semibold text-ink-soft mb-2">
+          <span>{{ t('games.quiz.progress', { current: currentIndex + 1, total: questions.length }) }}</span>
+          <span>{{ t('games.quiz.scoreLabel', { score }) }}</span>
+        </div>
+        <div class="h-2.5 rounded-full bg-ink/5 overflow-hidden">
+          <div
+            class="h-full rounded-full bg-sun-400 transition-all duration-500"
+            :style="{ width: `${(currentIndex / questions.length) * 100}%` }"
+          />
+        </div>
+      </div>
 
-      <!-- Fine quiz -->
-      <div v-else-if="answered && currentIndex === questions.length - 1" class="mt-6">
-        <p class="text-lg font-medium text-green-700">
-          {{ t('quiz.finished', { score }) }}
+      <!-- Domanda corrente -->
+      <div v-if="!finished" class="card w-full p-7 sm:p-8 animate-pop-in" :key="currentIndex">
+        <div class="flex items-start justify-between gap-3 mb-6">
+          <div class="flex items-center gap-4">
+            <span class="text-4xl">{{ currentQuestion.emoji }}</span>
+            <p class="text-xl font-semibold text-ink leading-snug">
+              {{ currentQuestion.question }}
+            </p>
+          </div>
+          <button
+            v-if="ttsSupported"
+            class="tts-btn shrink-0"
+            :aria-label="t('common.readAloud')"
+            @click="speak(currentQuestion.question, locale)"
+          >
+            <AppIcon name="speaker" :size="18" />
+          </button>
+        </div>
+
+        <div class="flex flex-col gap-3">
+          <button
+            v-for="(option, i) in currentQuestion.options"
+            :key="i"
+            :disabled="answered"
+            @click="selectAnswer(i)"
+            class="answer-btn"
+            :class="answerClass(i)"
+          >
+            <span>{{ option }}</span>
+            <AppIcon v-if="answered && i === currentQuestion.correctIndex" name="check" :size="20" />
+            <AppIcon v-else-if="answered && i === selected" name="x" :size="20" />
+          </button>
+        </div>
+
+        <div v-if="answered" class="mt-6 flex justify-end">
+          <GlassButton variant="primary" @click="nextQuestion">
+            {{ currentIndex < questions.length - 1 ? t('games.quiz.next') : t('games.quiz.results') }}
+          </GlassButton>
+        </div>
+      </div>
+
+      <!-- Risultati -->
+      <div v-else class="card w-full p-8 text-center animate-pop-in">
+        <img :src="glimmy" alt="Glimmy" class="w-24 h-24 mx-auto mb-4 animate-float" />
+        <h3 class="font-display text-3xl font-bold text-ink mb-2">
+          {{ perfect ? t('games.quiz.perfect') : t('games.quiz.finished', { score }) }}
+        </h3>
+        <p class="text-ink-soft mb-6">
+          {{ t('games.quiz.summary', { score, total: questions.length }) }}
         </p>
-        <button
-          @click="restart"
-          class="mt-4 px-6 py-3 bg-green-500 text-white rounded-full font-semibold shadow-md hover:bg-green-400 transition"
-        >
-          {{ t('quiz.restart') }}
-        </button>
+        <div class="flex gap-3 justify-center flex-wrap">
+          <GlassButton variant="primary" @click="restart">
+            {{ t('games.quiz.restart') }}
+          </GlassButton>
+          <RouterLink to="/games">
+            <GlassButton variant="ghost">{{ t('common.backToGames') }}</GlassButton>
+          </RouterLink>
+        </div>
       </div>
     </div>
-  </div>
+  </AnimatedBackground>
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { RouterLink } from 'vue-router'
+import AnimatedBackground from '../../components/AnimatedBackground.vue'
+import AppIcon from '../../components/AppIcon.vue'
+import GlassButton from '../../components/GlassButton.vue'
+import { quizData, type QuizQuestion } from '../../data/quiz'
+import { useProgress } from '../../composables/useProgress'
+import { useSound } from '../../composables/useSound'
+import { useSpeech } from '../../composables/useSpeech'
+import { useGlimmy } from '../../composables/useGlimmy'
 
 const { t, locale } = useI18n()
+const { recordGameComplete } = useProgress()
+const { playCorrect, playWrong, playFanfare } = useSound()
+const { speak, supported: ttsSupported } = useSpeech()
+const { react, say } = useGlimmy()
 
-// 📋 Domande multilingua
-const allQuestions = {
-  it: [
-    {
-      question: 'Cos\'è l\'intelligenza artificiale?',
-      options: ['Una magia', 'Un robot', 'Una simulazione dell’intelligenza umana'],
-      answer: 2
-    },
-    {
-      question: 'Quale oggetto usa spesso l’AI?',
-      options: ['Tastiera', 'Dati', 'Cucchiaio'],
-      answer: 1
-    }
-  ],
-  en: [
-    {
-      question: 'What is Artificial Intelligence?',
-      options: ['Magic', 'A robot', 'A simulation of human intelligence'],
-      answer: 2
-    },
-    {
-      question: 'What does AI often use?',
-      options: ['Keyboard', 'Data', 'Spoon'],
-      answer: 1
-    }
-  ],
-  es: [
-    {
-      question: '¿Qué es la inteligencia artificial?',
-      options: ['Magia', 'Un robot', 'Una simulación de la inteligencia humana'],
-      answer: 2
-    },
-    {
-      question: '¿Qué usa a menudo la IA?',
-      options: ['Teclado', 'Datos', 'Cuchara'],
-      answer: 1
-    }
-  ]
+const glimmy = new URL('../../assets/images/glimmy.png', import.meta.url).href
+
+const QUESTIONS_PER_ROUND = 5
+
+function pickQuestions(): QuizQuestion[] {
+  const pool = quizData[locale.value] || quizData.it
+  return [...pool].sort(() => 0.5 - Math.random()).slice(0, QUESTIONS_PER_ROUND)
 }
 
-// 📦 Stato
-const questions = computed(() => allQuestions[locale.value as 'it' | 'en' | 'es'])
+const questions = ref<QuizQuestion[]>(pickQuestions())
 const currentIndex = ref(0)
-const currentQuestion = computed(() => questions.value[currentIndex.value])
 const selected = ref<number | null>(null)
+const score = ref(0)
+const finished = ref(false)
+const startTime = ref(Date.now())
+
+const currentQuestion = computed(() => questions.value[currentIndex.value])
 const answered = computed(() => selected.value !== null)
-const score = ref(Number(localStorage.getItem('quiz_score') || 0))
+const perfect = computed(() => score.value === questions.value.length)
 
 function selectAnswer(index: number) {
   selected.value = index
-  if (index === currentQuestion.value.answer) {
-    score.value += 1
-    localStorage.setItem('quiz_score', score.value.toString())
+  if (index === currentQuestion.value.correctIndex) {
+    score.value++
+    playCorrect()
+    react('happy', 1500)
+  } else {
+    playWrong()
+    react('sad', 1500)
   }
 }
 
 function nextQuestion() {
-  selected.value = null
-  currentIndex.value++
+  if (currentIndex.value < questions.value.length - 1) {
+    selected.value = null
+    currentIndex.value++
+  } else {
+    finish()
+  }
+}
+
+function finish() {
+  finished.value = true
+  const durationSec = Math.round((Date.now() - startTime.value) / 1000)
+  recordGameComplete('quiz', {
+    score: score.value,
+    maxScore: questions.value.length,
+    durationSec
+  })
+  if (perfect.value) {
+    playFanfare()
+    react('celebrate', 3000)
+    say(t('glimmy.perfectScore'), { durationMs: 3500 })
+  }
 }
 
 function restart() {
-  score.value = 0
+  questions.value = pickQuestions()
   currentIndex.value = 0
   selected.value = null
-  localStorage.removeItem('quiz_score')
+  score.value = 0
+  finished.value = false
+  startTime.value = Date.now()
 }
 
-function buttonClass(index: number) {
-  if (!answered.value) return 'bg-yellow-200 px-6 py-3 rounded-full font-semibold hover:bg-yellow-300 transition'
+watch(locale, restart)
 
-  if (index === currentQuestion.value.answer) return 'bg-green-300 px-6 py-3 rounded-full font-semibold'
-  if (index === selected.value) return 'bg-red-300 px-6 py-3 rounded-full font-semibold'
-  return 'bg-gray-200 px-6 py-3 rounded-full font-semibold'
-}
-
-// ✨ Stelline animate
-function randomStyle() {
-  const styles = ['bg-red-200', 'bg-yellow-100', 'bg-lime-100']
-  return styles[Math.floor(Math.random() * styles.length)]
+function answerClass(index: number) {
+  if (!answered.value) return 'idle'
+  if (index === currentQuestion.value.correctIndex) return 'correct'
+  if (index === selected.value) return 'wrong'
+  return 'faded'
 }
 </script>
 
 <style scoped>
-.star {
-  position: absolute;
-  background-color: white;
-  border-radius: 50%;
-  opacity: 0.8;
-  animation: twinkle 2s infinite ease-in-out;
+.answer-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  width: 100%;
+  text-align: left;
+  padding: 0.9rem 1.25rem;
+  border-radius: 1rem;
+  font-weight: 600;
+  font-size: 1.05rem;
+  color: #2b2d42;
+  background: #fbf8f2;
+  border: 1.5px solid rgba(43, 45, 66, 0.08);
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
-@keyframes twinkle {
-  0%, 100% { opacity: 0.2; transform: scale(1); }
-  50% { opacity: 1; transform: scale(1.5); }
+.answer-btn.idle:hover {
+  border-color: rgba(247, 179, 43, 0.6);
+  background: #fff8e6;
+  transform: translateX(4px);
+}
+
+.answer-btn.correct {
+  background: #eaf8f2;
+  border-color: #3fbf8f;
+  color: #23855f;
+}
+
+.answer-btn.wrong {
+  background: #fdefed;
+  border-color: #f0766b;
+  color: #c03e33;
+  animation: shake 0.4s ease;
+}
+
+.answer-btn.faded {
+  opacity: 0.5;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+.tts-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.4rem;
+  height: 2.4rem;
+  border-radius: 9999px;
+  background: #eef6fc;
+  color: #2a6ba5;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.18s ease, background 0.18s ease;
+}
+
+.tts-btn:hover {
+  background: #d8ebf8;
+  transform: scale(1.08);
 }
 </style>

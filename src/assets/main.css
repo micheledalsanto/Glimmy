@@ -2,145 +2,134 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  @apply font-sans font-normal text-base;
-}
-
-@media (max-width: 640px) {
-  .mobile-title-offset {
-    margin-top: 56px; /* pari all'altezza della barra sticky */
-  }
-}
-
 /* ============================================
-   Glassmorphism Classes
+   Base — Glimmy design system "premium & airy"
    ============================================ */
 
-/* Base glass card */
-.glass-card {
-  background: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(12px) saturate(180%);
-  -webkit-backdrop-filter: blur(12px) saturate(180%);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-  border-radius: 1rem;
+:root {
+  --ink: #2b2d42;
+  --ink-soft: #6e7191;
+  --sun: #f7b32b;
+  --sky: #4e9de0;
+  --mint: #3fbf8f;
+  --coral: #f0766b;
 }
 
-/* Dark variant */
-.glass-card-dark {
-  background: rgba(0, 0, 0, 0.15);
-  backdrop-filter: blur(12px) saturate(150%);
-  -webkit-backdrop-filter: blur(12px) saturate(150%);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
-/* Glass button base */
-.glass-button {
-  background: rgba(255, 255, 255, 0.25);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  border-radius: 0.75rem;
+body {
+  @apply font-sans text-base text-ink bg-cream;
+  margin: 0;
+  min-width: 320px;
 }
 
-.glass-button:hover {
-  background: rgba(255, 255, 255, 0.35);
-  transform: translateY(-2px) scale(1.02);
-  box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.42);
+h1, h2, h3, h4 {
+  @apply font-display;
 }
 
-.glass-button:active {
-  transform: translateY(0) scale(0.98);
+@layer components {
+  /* Card "carta premium" */
+  .card {
+    @apply bg-paper rounded-card shadow-card border border-ink/5;
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+  }
+
+  .card-hover {
+    @apply hover:shadow-card-hover hover:-translate-y-1;
+  }
+
+  /* Chip / pill */
+  .chip {
+    @apply inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-sm font-semibold;
+  }
+
+  /* Sezione pagina centrata e ariosa */
+  .page {
+    @apply mx-auto w-full max-w-5xl px-5 sm:px-8 pb-24 pt-24;
+  }
+
+  .page-title {
+    @apply font-display text-4xl sm:text-5xl font-bold text-ink tracking-tight;
+  }
+
+  .page-subtitle {
+    @apply mt-3 text-lg text-ink-soft max-w-xl mx-auto;
+  }
 }
 
-/* Glass input */
-.glass-input {
-  background: rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  border-radius: 0.75rem;
-  transition: all 0.3s ease;
-}
-
-.glass-input:focus {
-  background: rgba(255, 255, 255, 0.3);
-  border-color: rgba(255, 255, 255, 0.4);
-  outline: none;
-  box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
-}
-
-/* 3D Card Effects */
-.card-3d {
-  transform-style: preserve-3d;
-  perspective: 1000px;
-  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.card-3d:hover {
-  transform: rotateY(5deg) rotateX(5deg) translateZ(10px);
-}
-
-/* Gradient Overlays */
-.gradient-overlay {
+/* Sfondo ambiente: avorio caldo con bagliori tinti molto leggeri */
+.ambient-bg {
   position: relative;
-  overflow: hidden;
+  isolation: isolate;
 }
 
-.gradient-overlay::before {
+.ambient-bg::before {
   content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 200%;
-  height: 100%;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255, 255, 255, 0.3),
-    transparent
-  );
-  animation: shimmer 3s infinite;
-}
-
-/* Pulse soft animation */
-@keyframes pulse-soft {
-  0%,
-  100% {
-    transform: scale(1);
-    opacity: 1;
-  }
-  50% {
-    transform: scale(1.05);
-    opacity: 0.9;
-  }
-}
-
-.pulse-soft {
-  animation: pulse-soft 2s ease-in-out infinite;
-}
-
-/* Shimmer overlay for cards */
-.shimmer-overlay {
-  position: absolute;
+  position: fixed;
   inset: 0;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(255, 255, 255, 0.3) 50%,
-    transparent 100%
-  );
-  background-size: 200% 100%;
-  animation: shimmer 2s ease-in-out;
+  z-index: -1;
+  background:
+    radial-gradient(48rem 32rem at 85% -10%, rgba(247, 179, 43, 0.13), transparent 60%),
+    radial-gradient(40rem 28rem at -10% 30%, rgba(78, 157, 224, 0.1), transparent 60%),
+    radial-gradient(36rem 26rem at 70% 110%, rgba(63, 191, 143, 0.08), transparent 60%),
+    #fbf8f2;
+}
+
+/* Trama puntinata sottilissima per dare materia allo sfondo */
+.ambient-bg::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background-image: radial-gradient(rgba(43, 45, 66, 0.05) 1px, transparent 1px);
+  background-size: 26px 26px;
+  mask-image: linear-gradient(to bottom, black, transparent 85%);
+  -webkit-mask-image: linear-gradient(to bottom, black, transparent 85%);
   pointer-events: none;
 }
 
-@keyframes shimmer {
-  0% {
-    background-position: -200% center;
-  }
-  100% {
-    background-position: 200% center;
+/* Stelline decorative */
+.sparkle {
+  position: absolute;
+  border-radius: 50%;
+  background: var(--sun);
+  opacity: 0.3;
+  animation: twinkle 2.4s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.15; transform: scale(1); }
+  50% { opacity: 0.55; transform: scale(1.35); }
+}
+
+/* Animazioni di ingresso scaglionate */
+.stagger > * {
+  animation: rise-in 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.stagger > *:nth-child(1) { animation-delay: 0.05s; }
+.stagger > *:nth-child(2) { animation-delay: 0.12s; }
+.stagger > *:nth-child(3) { animation-delay: 0.19s; }
+.stagger > *:nth-child(4) { animation-delay: 0.26s; }
+.stagger > *:nth-child(5) { animation-delay: 0.33s; }
+.stagger > *:nth-child(6) { animation-delay: 0.4s; }
+.stagger > *:nth-child(7) { animation-delay: 0.47s; }
+.stagger > *:nth-child(8) { animation-delay: 0.54s; }
+
+@keyframes rise-in {
+  0% { opacity: 0; transform: translateY(16px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* Riduci movimento per chi lo preferisce */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }

@@ -1,130 +1,92 @@
 <template>
-  <button
-    class="activity-card glass-card card-3d relative overflow-hidden"
-    :class="[
-      `variant-${variant}`,
-      { 'animate-pulse-soft': glow }
-    ]"
-    @mouseenter="hover = true"
-    @mouseleave="hover = false"
-  >
-    <!-- Glow layer -->
-    <div
-      class="glow-layer absolute inset-0 opacity-0 transition-opacity duration-500"
-      :class="{ 'opacity-60': hover }"
-    ></div>
-
-    <!-- Content -->
-    <div class="relative z-10 flex flex-col items-center justify-center gap-4">
-      <span
-        class="icon text-7xl sm:text-8xl transition-transform duration-300"
-        :class="{ 'scale-110': hover }"
-      >
-        {{ icon }}
-      </span>
-      <span class="label text-2xl sm:text-3xl font-semibold text-white drop-shadow-lg">
-        {{ label }}
-      </span>
+  <div class="card card-hover activity-card" :class="`tint-${variant}`">
+    <div class="icon-pill">
+      <AppIcon :name="icon" :size="30" />
     </div>
-
-    <!-- Shimmer effect on hover -->
-    <div v-if="hover" class="shimmer-overlay"></div>
-  </button>
+    <h3 class="font-display text-2xl font-bold text-ink">{{ label }}</h3>
+    <p v-if="description" class="text-sm text-ink-soft leading-snug">{{ description }}</p>
+    <span class="go-hint" aria-hidden="true">→</span>
+  </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import AppIcon, { type IconName } from './AppIcon.vue'
 
 interface Props {
-  icon: string
+  icon: IconName
   label: string
-  variant?: 'primary' | 'secondary' | 'accent' | 'success'
-  glow?: boolean
+  description?: string
+  variant?: 'sun' | 'sky' | 'mint' | 'coral'
 }
 
-const props = withDefaults(defineProps<Props>(), {
-  variant: 'primary',
-  glow: false
+withDefaults(defineProps<Props>(), {
+  variant: 'sun',
+  description: undefined
 })
-
-const hover = ref(false)
 </script>
 
 <style scoped>
 .activity-card {
-  width: 100%;
-  height: 16rem;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  cursor: pointer;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 1.75rem;
+  height: 100%;
+  overflow: hidden;
 }
 
-.activity-card:hover {
-  transform: translateY(-8px) scale(1.02);
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-}
-
-.activity-card:active {
-  transform: translateY(-4px) scale(0.98);
-}
-
-.glow-layer {
-  background: radial-gradient(circle at center, var(--glow-color) 0%, transparent 70%);
-  pointer-events: none;
-}
-
-/* Variant colors */
-.variant-primary {
-  --glow-color: rgba(59, 130, 246, 0.6);
-  border-color: rgba(59, 130, 246, 0.3);
-}
-
-.variant-secondary {
-  --glow-color: rgba(168, 85, 247, 0.6);
-  border-color: rgba(168, 85, 247, 0.3);
-}
-
-.variant-accent {
-  --glow-color: rgba(236, 72, 153, 0.6);
-  border-color: rgba(236, 72, 153, 0.3);
-}
-
-.variant-success {
-  --glow-color: rgba(34, 197, 94, 0.6);
-  border-color: rgba(34, 197, 94, 0.3);
-}
-
-.shimmer-overlay {
+/* Alone tinto nell'angolo per distinguere le attività senza perdere arietà */
+.activity-card::before {
+  content: '';
   position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255, 255, 255, 0.3),
-    transparent
-  );
-  animation: shimmer 2s ease-in-out;
-  pointer-events: none;
+  top: -3rem;
+  right: -3rem;
+  width: 9rem;
+  height: 9rem;
+  border-radius: 50%;
+  opacity: 0.16;
+  transition: transform 0.35s ease, opacity 0.35s ease;
 }
 
-@keyframes shimmer {
-  from {
-    transform: translateX(-100%);
-  }
-  to {
-    transform: translateX(100%);
-  }
+.activity-card:hover::before {
+  transform: scale(1.35);
+  opacity: 0.24;
 }
 
-@keyframes pulse-soft {
-  0%, 100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.9;
-  }
+.icon-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 1.1rem;
 }
 
-.animate-pulse-soft {
-  animation: pulse-soft 2s ease-in-out infinite;
+.tint-sun::before { background: #f7b32b; }
+.tint-sun .icon-pill { background: #fff8e6; color: #c4830a; }
+
+.tint-sky::before { background: #4e9de0; }
+.tint-sky .icon-pill { background: #eef6fc; color: #2a6ba5; }
+
+.tint-mint::before { background: #3fbf8f; }
+.tint-mint .icon-pill { background: #eaf8f2; color: #23855f; }
+
+.tint-coral::before { background: #f0766b; }
+.tint-coral .icon-pill { background: #fdefed; color: #c03e33; }
+
+.go-hint {
+  position: absolute;
+  top: 1.25rem;
+  right: 1.5rem;
+  font-size: 1.25rem;
+  color: #a0a3bd;
+  transition: transform 0.25s ease, color 0.25s ease;
+}
+
+.activity-card:hover .go-hint {
+  transform: translateX(4px);
+  color: #2b2d42;
 }
 </style>

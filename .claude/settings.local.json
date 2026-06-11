@@ -2,7 +2,31 @@
   "permissions": {
     "allow": [
       "Bash(netstat:*)",
-      "Bash(taskkill:*)"
+      "Bash(taskkill:*)",
+      "Bash(git -C \"c:\\\\Users\\\\dalsa\\\\Documents\\\\lavori\\\\Glimmy\" log --oneline -5 --date=short --pretty=\"%h %ad %s\")",
+      "Bash(npm outdated *)",
+      "Bash(npm install *)",
+      "Bash(npm audit *)",
+      "Bash(npm update *)",
+      "PowerShell($conn = Get-NetTCPConnection -LocalPort 4173 -State Listen -ErrorAction SilentlyContinue; if \\($conn\\) { Stop-Process -Id $conn.OwningProcess -Force -Confirm:$false; \"killed\" } else { \"already stopped\" })",
+      "mcp__plugin_playwright_playwright__browser_navigate",
+      "mcp__plugin_playwright_playwright__browser_take_screenshot",
+      "Bash(python -c ' *)",
+      "Bash(python c:/tmp/add_i18n.py)",
+      "Bash(python c:/tmp/add_prompts_i18n.py)",
+      "WebSearch",
+      "Bash(npm ls *)",
+      "Bash(python c:/tmp/add_voice_i18n.py)",
+      "Bash(sort -t' ' -k2 -h)",
+      "Bash(npm remove *)",
+      "Bash(node -e \"import\\('@diffusionstudio/vits-web'\\).then\\(m => { console.log\\(Object.keys\\(m\\)\\); }\\)\")",
+      "Bash(curl -s \"https://huggingface.co/api/models/rhasspy/piper-voices/tree/main/it/it_IT\")",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" \"https://huggingface.co/rhasspy/piper-voices/resolve/main/it/it_IT/paola/medium/it_IT-paola-medium.onnx.json\")",
+      "Bash(grep -o \"PATH_MAP={[^}]*it_IT[^,]*,\" node_modules/@diffusionstudio/vits-web/dist/vits-web.js)",
+      "Bash(node -e \"import\\('@diffusionstudio/vits-web'\\).then\\(m => { console.log\\(m.PATH_MAP['it_IT-riccardo-x_low']\\); console.log\\(m.HF_BASE\\); }\\)\")",
+      "Bash(curl -s -o /dev/null -w \"onnx: %{http_code}\\\\n\" \"https://huggingface.co/diffusionstudio/piper-voices/resolve/main/it/it_IT/paola/medium/it_IT-paola-medium.onnx\")",
+      "Bash(curl -s -o /dev/null -w \"json: %{http_code}\\\\n\" \"https://huggingface.co/diffusionstudio/piper-voices/resolve/main/it/it_IT/paola/medium/it_IT-paola-medium.onnx.json\")",
+      "PowerShell($conn = Get-NetTCPConnection -LocalPort 5173 -State Listen -ErrorAction SilentlyContinue; if \\($conn\\) { \"già attivo su 5173 \\(PID $\\($conn[0].OwningProcess\\)\\)\" } else { \"non attivo\" })"
     ]
   }
 }

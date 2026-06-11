@@ -1,22 +1,20 @@
 <template>
-  <div class="stat-item glass-card p-6 flex flex-col items-center gap-4">
+  <div class="card flex flex-col items-center gap-2 p-5 text-center card-hover">
     <!-- Icon -->
-    <div class="stat-icon text-5xl">
-      {{ icon }}
-    </div>
+    <div class="text-3xl">{{ icon }}</div>
 
     <!-- Value -->
-    <div class="stat-value text-4xl font-bold text-white">
+    <div class="font-display text-3xl font-extrabold text-ink">
       {{ animatedValue }}
     </div>
 
     <!-- Label -->
-    <div class="stat-label text-sm text-white/70 text-center">
+    <div class="text-sm text-ink-soft leading-tight">
       {{ label }}
     </div>
 
     <!-- Optional sublabel -->
-    <div v-if="sublabel" class="stat-sublabel text-xs text-white/50 text-center">
+    <div v-if="sublabel" class="text-xs text-ink-faint">
       {{ sublabel }}
     </div>
   </div>
@@ -39,7 +37,7 @@ const props = withDefaults(defineProps<Props>(), {
 
 const animatedValue = ref(0)
 
-// Animate value count-up
+// Animazione count-up del valore
 const animateValue = () => {
   const start = animatedValue.value
   const end = props.value
@@ -47,11 +45,8 @@ const animateValue = () => {
   const startTime = Date.now()
 
   const animate = () => {
-    const currentTime = Date.now()
-    const elapsed = currentTime - startTime
+    const elapsed = Date.now() - startTime
     const progress = Math.min(elapsed / duration, 1)
-
-    // Easing function (ease-out)
     const easeOut = 1 - Math.pow(1 - progress, 3)
 
     animatedValue.value = Math.floor(start + (end - start) * easeOut)
@@ -66,48 +61,11 @@ const animateValue = () => {
   requestAnimationFrame(animate)
 }
 
-// Watch for value changes
 watch(() => props.value, () => {
   animateValue()
 })
 
-// Animate on mount
 onMounted(() => {
   animateValue()
 })
 </script>
-
-<style scoped>
-.stat-item {
-  background: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(12px) saturate(180%);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  transition: all 0.3s ease;
-}
-
-.stat-item:hover {
-  background: rgba(255, 255, 255, 0.2);
-  transform: translateY(-4px);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
-}
-
-.stat-icon {
-  animation: float 3s ease-in-out infinite;
-}
-
-@keyframes float {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
-}
-
-.stat-value {
-  background: linear-gradient(135deg, #ffffff 0%, rgba(255, 255, 255, 0.7) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-</style>

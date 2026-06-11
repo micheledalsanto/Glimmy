@@ -1,0 +1,37 @@
+- generic [ref=e3]:
+  - banner:
+    - link "Atrás" [ref=e4] [cursor=pointer]:
+      - /url: /menu
+      - img [ref=e5]
+    - button "Activar o desactivar sonidos" [ref=e7] [cursor=pointer]:
+      - img [ref=e8]
+  - main [ref=e11]:
+    - generic [ref=e85]:
+      - button "← Volver a la biblioteca" [ref=e86] [cursor=pointer]:
+        - generic [ref=e87]: ← Volver a la biblioteca
+      - generic [ref=e88]:
+        - generic [ref=e89]: 🌟
+        - heading "El Primer Día de Glimmy" [level=2] [ref=e90]
+        - paragraph [ref=e91]: Página 2 de 8
+      - generic [ref=e92]:
+        - button "Leer en voz alta" [ref=e93] [cursor=pointer]:
+          - img [ref=e94]
+        - generic [ref=e97]: 💫
+        - paragraph [ref=e98]: Glimmy miró alrededor y vio miles de millones de pequeñas luces brillando como estrellas. "¡Bienvenido al mundo digital!" dijo una luz amigable. "¡Soy Data, y tú eres una Inteligencia Artificial!"
+      - generic [ref=e99]:
+        - button "← Atrás" [ref=e100] [cursor=pointer]:
+          - generic [ref=e101]: ← Atrás
+        - generic [ref=e102]: 2 / 8
+        - button "Siguiente →" [ref=e103] [cursor=pointer]:
+          - generic [ref=e104]: Siguiente →
+      - paragraph [ref=e108]: "Progreso: 25%"
+  - contentinfo [ref=e74]:
+    - generic [ref=e75]:
+      - button "it" [ref=e76] [cursor=pointer]:
+        - img "it" [ref=e77]
+      - button "en" [ref=e78] [cursor=pointer]:
+        - img "en" [ref=e79]
+      - button "es" [ref=e80] [cursor=pointer]:
+        - img "es" [ref=e81]
+    - paragraph [ref=e82]: © 2026 Glimmy AI
+  - img "Glimmy" [ref=e84] [cursor=pointer]

@@ -2,7 +2,8 @@
   "home": {
     "title": "Benvenuto in Glimmy World!",
     "subtitle": "Scopri il mondo dell’intelligenza artificiale divertendoti.",
-    "start": "Inizia"
+    "start": "Inizia",
+    "tagline": "Pensato per bambini dai 5 ai 10 anni · Senza pubblicità"
   },
   "menu": {
     "title": "Cosa vuoi fare?",
@@ -10,7 +11,14 @@
     "glossary": "Glossario",
     "stories": "Storie",
     "rewards": "Premi",
-    "hint": "Scegli un'attività per iniziare a imparare!"
+    "hint": "Scegli un'attività per iniziare a imparare!",
+    "gamesDesc": "Mini-giochi per scoprire come ragiona l'AI",
+    "glossaryDesc": "Le parole dell'AI spiegate semplici",
+    "storiesDesc": "Storie illustrate con narrazione vocale",
+    "rewardsDesc": "I tuoi badge, punti e progressi",
+    "points": "{points} punti",
+    "badges": "{count} badge",
+    "streak": "{days} giorni di fila"
   },
   "games": {
     "select": "Scegli un gioco!",
@@ -34,7 +42,12 @@
       "perfect": "Punteggio perfetto! 🌟",
       "correctAnswer": "Risposta corretta!",
       "wrongAnswer": "Risposta sbagliata!",
-      "tryAgain": "Riprova!"
+      "tryAgain": "Riprova!",
+      "progress": "Domanda {current} di {total}",
+      "scoreLabel": "Punti: {score}",
+      "results": "Risultati",
+      "finished": "Hai totalizzato {score} punti!",
+      "summary": "{score} risposte giuste su {total}"
     },
     "storyFill": {
       "title": "Completa la Storia",
@@ -54,7 +67,8 @@
       "congrats": "Bravo!",
       "completed": "Hai completato il gioco con successo!",
       "playAgain": "Rigioca",
-      "backMenu": "Torna al menu"
+      "backMenu": "Torna al menu",
+      "moves": "Mosse: {moves}"
     },
     "guess": {
       "title": "Indovina l'Oggetto AI",
@@ -125,27 +139,47 @@
           "phrases": [
             {
               "text": "Glimmy è una piccola ______ robotica.",
-              "options": ["banana", "stellina", "nuvola"],
+              "options": [
+                "banana",
+                "stellina",
+                "nuvola"
+              ],
               "answer": "stellina"
             },
             {
               "text": "L'intelligenza artificiale è una mente molto ______.",
-              "options": ["furba", "rumorosa", "puzzolente"],
+              "options": [
+                "furba",
+                "rumorosa",
+                "puzzolente"
+              ],
               "answer": "furba"
             },
             {
               "text": "I robot non mangiano, ma usano l’______.",
-              "options": ["energia", "forchetta", "zuppa"],
+              "options": [
+                "energia",
+                "forchetta",
+                "zuppa"
+              ],
               "answer": "energia"
             },
             {
               "text": "Per imparare, Glimmy legge tanti ______.",
-              "options": ["libri", "dati", "fumetti"],
+              "options": [
+                "libri",
+                "dati",
+                "fumetti"
+              ],
               "answer": "dati"
             },
             {
               "text": "Glimmy adora fare quiz e ______.",
-              "options": ["torte", "indovinelli", "sonnellini"],
+              "options": [
+                "torte",
+                "indovinelli",
+                "sonnellini"
+              ],
               "answer": "indovinelli"
             }
           ]
@@ -155,27 +189,47 @@
           "phrases": [
             {
               "text": "Un robot non dorme, ma può ______.",
-              "options": ["russare", "caricarsi", "sognare"],
+              "options": [
+                "russare",
+                "caricarsi",
+                "sognare"
+              ],
               "answer": "caricarsi"
             },
             {
               "text": "Quando vede una banana, Glimmy dice: è una ______!",
-              "options": ["frutta", "scarpa", "stella"],
+              "options": [
+                "frutta",
+                "scarpa",
+                "stella"
+              ],
               "answer": "frutta"
             },
             {
               "text": "L’AI aiuta a trovare le ______ giuste.",
-              "options": ["risposte", "scarpe", "faccine"],
+              "options": [
+                "risposte",
+                "scarpe",
+                "faccine"
+              ],
               "answer": "risposte"
             },
             {
               "text": "Per funzionare, Glimmy ha bisogno di un ______.",
-              "options": ["cuscino", "computer", "frullatore"],
+              "options": [
+                "cuscino",
+                "computer",
+                "frullatore"
+              ],
               "answer": "computer"
             },
             {
               "text": "Glimmy parla con noi come un piccolo ______.",
-              "options": ["orso", "amico", "cavallo"],
+              "options": [
+                "orso",
+                "amico",
+                "cavallo"
+              ],
               "answer": "amico"
             }
           ]
@@ -185,27 +239,47 @@
           "phrases": [
             {
               "text": "Quando Glimmy è felice, fa un salto e una ______!",
-              "options": ["capriola", "pizza", "sedia"],
+              "options": [
+                "capriola",
+                "pizza",
+                "sedia"
+              ],
               "answer": "capriola"
             },
             {
               "text": "L’intelligenza artificiale non ha orecchie, ma può ______.",
-              "options": ["cantare", "ascoltare", "ballare"],
+              "options": [
+                "cantare",
+                "ascoltare",
+                "ballare"
+              ],
               "answer": "ascoltare"
             },
             {
               "text": "Glimmy pensa veloce come un ______!",
-              "options": ["bradipo", "treno", "razzo"],
+              "options": [
+                "bradipo",
+                "treno",
+                "razzo"
+              ],
               "answer": "razzo"
             },
             {
               "text": "I robot camminano con le loro piccole ______.",
-              "options": ["scarpe", "zampe", "ruote"],
+              "options": [
+                "scarpe",
+                "zampe",
+                "ruote"
+              ],
               "answer": "ruote"
             },
             {
               "text": "Quando trova la risposta giusta, Glimmy fa una ______.",
-              "options": ["festa", "spesa", "risata"],
+              "options": [
+                "festa",
+                "spesa",
+                "risata"
+              ],
               "answer": "festa"
             }
           ]
@@ -215,27 +289,47 @@
           "phrases": [
             {
               "text": "Glimmy ama i giochi di ______.",
-              "options": ["memoria", "pallone", "neve"],
+              "options": [
+                "memoria",
+                "pallone",
+                "neve"
+              ],
               "answer": "memoria"
             },
             {
               "text": "Un robot non ha cuore, ma può essere molto ______.",
-              "options": ["gentile", "appiccicoso", "rumoroso"],
+              "options": [
+                "gentile",
+                "appiccicoso",
+                "rumoroso"
+              ],
               "answer": "gentile"
             },
             {
               "text": "Con Glimmy imparare è un vero ______!",
-              "options": ["spasso", "problema", "noioso"],
+              "options": [
+                "spasso",
+                "problema",
+                "noioso"
+              ],
               "answer": "spasso"
             },
             {
               "text": "Se sbagli, Glimmy dice: Riprova con un bel ______!",
-              "options": ["sorriso", "piedone", "urlo"],
+              "options": [
+                "sorriso",
+                "piedone",
+                "urlo"
+              ],
               "answer": "sorriso"
             },
             {
               "text": "L’intelligenza artificiale aiuta anche la ______.",
-              "options": ["scuola", "pizza", "nanna"],
+              "options": [
+                "scuola",
+                "pizza",
+                "nanna"
+              ],
               "answer": "scuola"
             }
           ]
@@ -245,27 +339,47 @@
           "phrases": [
             {
               "text": "Glimmy è pieno di ______ colorate!",
-              "options": ["ombrelli", "luci", "formiche"],
+              "options": [
+                "ombrelli",
+                "luci",
+                "formiche"
+              ],
               "answer": "luci"
             },
             {
               "text": "Un robot può vedere con una ______ speciale.",
-              "options": ["forchetta", "telecamera", "banana"],
+              "options": [
+                "forchetta",
+                "telecamera",
+                "banana"
+              ],
               "answer": "telecamera"
             },
             {
               "text": "Quando c’è un problema, Glimmy usa la sua ______.",
-              "options": ["pancia", "logica", "coda"],
+              "options": [
+                "pancia",
+                "logica",
+                "coda"
+              ],
               "answer": "logica"
             },
             {
               "text": "Glimmy ama esplorare lo spazio e le ______.",
-              "options": ["idee", "patate", "scarpe"],
+              "options": [
+                "idee",
+                "patate",
+                "scarpe"
+              ],
               "answer": "idee"
             },
             {
               "text": "Un giorno Glimmy andrà sulla ______!",
-              "options": ["luna", "mucca", "mela"],
+              "options": [
+                "luna",
+                "mucca",
+                "mela"
+              ],
               "answer": "luna"
             }
           ]
@@ -275,32 +389,82 @@
           "phrases": [
             {
               "text": "Glimmy dice: l’AI non è magia, è solo ______!",
-              "options": ["scienza", "marmellata", "trucco"],
+              "options": [
+                "scienza",
+                "marmellata",
+                "trucco"
+              ],
               "answer": "scienza"
             },
             {
               "text": "Glimmy lavora in una squadra di ______ robotici.",
-              "options": ["amici", "ombrelli", "robottoni"],
+              "options": [
+                "amici",
+                "ombrelli",
+                "robottoni"
+              ],
               "answer": "amici"
             },
             {
               "text": "Se c'è un dubbio, Glimmy lo risolve con un ______!",
-              "options": ["bacio", "click", "tuffo"],
+              "options": [
+                "bacio",
+                "click",
+                "tuffo"
+              ],
               "answer": "click"
             },
             {
               "text": "Con Glimmy si studia, si gioca e si ______!",
-              "options": ["ride", "piange", "corre"],
+              "options": [
+                "ride",
+                "piange",
+                "corre"
+              ],
               "answer": "ride"
             },
             {
               "text": "Glimmy dice: ogni errore è una nuova ______!",
-              "options": ["scoperta", "caduta", "porta"],
+              "options": [
+                "scoperta",
+                "caduta",
+                "porta"
+              ],
               "answer": "scoperta"
             }
           ]
         }
       ]
+    },
+    "trainRobotDesc": "Insegna al robot con gli esempi e guardalo imparare",
+    "trainRobot": {
+      "title": "Allena il Robot",
+      "trainInstruction": "Insegna al robot mostrandogli degli esempi!",
+      "testInstruction": "Ora il robot prova da solo con cose mai viste!",
+      "example": "Esempio {current} di {total}",
+      "whichCategory": "In quale gruppo lo metti?",
+      "knowledgeHint": "Più esempi dai, più il robot impara!",
+      "testEarly": "Basta esempi, mettilo alla prova!",
+      "testItem": "Prova {current} di {total}",
+      "askRobot": "Cosa dici, robot?",
+      "robotSays": "Il robot dice:",
+      "robotRight": "Giusto! Il robot ha imparato bene! 🎉",
+      "robotWrong": "Ops! Il robot si è sbagliato…",
+      "next": "Avanti",
+      "results": "Risultati",
+      "finished": "Il robot ha indovinato {score} su {total}!",
+      "lessonFull": "Hai dato tanti esempi e il robot ha imparato bene!",
+      "lessonPartial": "Con pochi esempi il robot fa più errori. Prova a dargliene di più!",
+      "lessonCore": "L'intelligenza artificiale impara dagli esempi che le diamo: proprio come ha fatto il tuo robot!",
+      "playAgain": "Nuovo allenamento",
+      "categories": {
+        "flies": "Vola",
+        "swims": "Nuota",
+        "fruit": "Frutta",
+        "animals": "Animali",
+        "hot": "Caldo",
+        "cold": "Freddo"
+      }
     }
   },
   "glossary": {
@@ -362,7 +526,8 @@
       "sectionsVisited": "Sezioni Visitate",
       "badgesUnlocked": "Badge Sbloccati"
     },
-    "shareText": "Ho sbloccato il badge '{badge}' su GlimmyAI! 🎉"
+    "shareText": "Ho sbloccato il badge '{badge}' su GlimmyAI! 🎉",
+    "unlockedToast": "Badge sbloccato!"
   },
   "prompts": {
     "title": "Prova i Prompt AI",
@@ -405,6 +570,65 @@
       "action": "Azione?",
       "object": "Oggetto?",
       "task": "Compito?"
+    },
+    "data": {
+      "draw": {
+        "prompt": "Disegna {subject} in stile {style}",
+        "ph": {
+          "subject": "un drago",
+          "style": "cartone animato"
+        },
+        "r1": "🎨 Creerei {subject} in stile {style} con colori brillanti e forme divertenti!",
+        "r2": "✏️ Che bella idea! Un {subject} in stile {style} sarebbe fantastico!",
+        "r3": "🖌️ Mi piace! Potrei disegnare {subject} in stile {style} con tanti dettagli colorati!"
+      },
+      "story": {
+        "prompt": "Racconta una storia su {character} {place}",
+        "ph": {
+          "character": "un robot",
+          "place": "nello spazio"
+        },
+        "r1": "📖 C'era una volta {character} che viveva {place}... Un giorno incontrò nuovi amici!",
+        "r2": "✨ Che avventura! {character} {place} scoprì un segreto incredibile...",
+        "r3": "🌟 Ti racconto di {character} che {place} visse mille avventure emozionanti!"
+      },
+      "ai-question": {
+        "prompt": "Cos'è {topic}?",
+        "ph": {
+          "topic": "i robot"
+        },
+        "r1": "🤔 {topic}? Che bella domanda! Ti spiego in modo semplice...",
+        "r2": "💡 Ottima domanda su {topic}! È una cosa interessante da scoprire!",
+        "r3": "🧠 {topic} è qualcosa di speciale! Glimmy può spiegartelo!"
+      },
+      "how-question": {
+        "prompt": "Come fa Glimmy a {action}?",
+        "ph": {
+          "action": "riconoscere i gatti"
+        },
+        "r1": "👀 Per {action}, guardo tantissime foto e imparo i dettagli!",
+        "r2": "📚 Posso {action} perché ho visto tanti esempi diversi!",
+        "r3": "🔍 Per {action}, uso il mio cervello robotico che trova le somiglianze!"
+      },
+      "task": {
+        "prompt": "{action} {object}",
+        "ph": {
+          "action": "traduci",
+          "object": "questa frase"
+        },
+        "r1": "✓ Certo! Posso {action} {object} per te in un attimo.",
+        "r2": "👍 Perfetto! Per {action} {object}, farei così...",
+        "r3": "⚡ Fatto! Ho appena {action} {object} come hai chiesto!"
+      },
+      "help": {
+        "prompt": "Aiutami a {task}",
+        "ph": {
+          "task": "fare i compiti"
+        },
+        "r1": "📚 Certo! Posso aiutarti a {task}. Ti spiego passo dopo passo!",
+        "r2": "🤝 Perfetto! Per {task} possiamo lavorare insieme!",
+        "r3": "💪 Volentieri! Ti aiuto a {task} in modo facile e divertente!"
+      }
     }
   },
   "common": {
@@ -430,6 +654,22 @@
     "copied": "Copiato!",
     "congratulations": "Congratulazioni!",
     "wellDone": "Ottimo lavoro!",
-    "keepGoing": "Continua così!"
+    "keepGoing": "Continua così!",
+    "back": "Indietro",
+    "toggleSound": "Attiva o disattiva i suoni",
+    "readAloud": "Leggi ad alta voce",
+    "backToGames": "Torna ai giochi",
+    "voiceLoading": "Scarico la voce nuova… {percent}%"
+  },
+  "glimmy": {
+    "poke1": "Ciao! Sono Glimmy! ✨",
+    "poke2": "Ti diverti? Io tantissimo!",
+    "poke3": "Lo sai che imparo dagli esempi?",
+    "poke4": "Continua così, sei bravissimo!",
+    "gameWin": "Evviva! Ce l'hai fatta! 🎉",
+    "perfectScore": "Punteggio perfetto! Sei un campione!",
+    "storyDone": "Che bella storia! Ne facciamo un'altra?",
+    "robotTesting": "Vediamo cosa ha imparato il robot!",
+    "voiceReady": "Ho una voce tutta nuova! Ascoltami! 🎤"
   }
 }

@@ -4,54 +4,92 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Fredoka', 'sans-serif'],
+        sans: ['Quicksand', 'sans-serif'],
+        display: ['"Baloo 2"', 'sans-serif'],
       },
-      // Glassmorphism backdrop blur
-      backdropBlur: {
-        xs: '2px',
-        '3xl': '64px',
+      colors: {
+        // Carta e sfondi
+        cream: '#FBF8F2',
+        paper: '#FFFFFF',
+        // Testo
+        ink: {
+          DEFAULT: '#2B2D42',
+          soft: '#6E7191',
+          faint: '#A0A3BD',
+        },
+        // Accenti — Glimmy è una stella dorata
+        sun: {
+          50: '#FFF8E6',
+          100: '#FFEFC2',
+          200: '#FFE08A',
+          300: '#FFCE4F',
+          400: '#F7B32B',
+          500: '#E59D13',
+          600: '#C4830A',
+        },
+        sky2: {
+          50: '#EEF6FC',
+          100: '#D8EBF8',
+          300: '#8CC4EC',
+          400: '#4E9DE0',
+          500: '#3784C7',
+          600: '#2A6BA5',
+        },
+        mint: {
+          50: '#EAF8F2',
+          100: '#CFF0E1',
+          300: '#7DDBB4',
+          400: '#3FBF8F',
+          500: '#2EA478',
+          600: '#23855F',
+        },
+        coral: {
+          50: '#FDEFED',
+          100: '#FBDAD6',
+          300: '#F5A69E',
+          400: '#F0766B',
+          500: '#DE584C',
+          600: '#C03E33',
+        },
       },
-      // 3D Transform utilities
-      perspective: {
-        '1000': '1000px',
-        '2000': '2000px',
-      },
-      // Custom shadows for glassmorphism
       boxShadow: {
-        glass: '0 8px 32px 0 rgba(31, 38, 135, 0.37)',
-        'glass-lg': '0 16px 48px 0 rgba(31, 38, 135, 0.45)',
-        'glass-hover': '0 12px 40px 0 rgba(31, 38, 135, 0.42)',
-        'inner-glow': 'inset 0 0 20px rgba(255, 255, 255, 0.3)',
-        '3d': '0 20px 60px rgba(0, 0, 0, 0.3), 0 10px 30px rgba(0, 0, 0, 0.2)',
-        '3d-hover':
-          '0 30px 80px rgba(0, 0, 0, 0.35), 0 15px 40px rgba(0, 0, 0, 0.25)',
+        // Ombre morbide stratificate per il look "carta premium"
+        card: '0 1px 2px rgba(43, 45, 66, 0.04), 0 8px 24px -8px rgba(43, 45, 66, 0.12)',
+        'card-hover': '0 2px 4px rgba(43, 45, 66, 0.05), 0 16px 40px -12px rgba(43, 45, 66, 0.18)',
+        button: '0 2px 0 rgba(43, 45, 66, 0.08), 0 8px 20px -8px rgba(43, 45, 66, 0.25)',
+        ring: '0 0 0 4px rgba(247, 179, 43, 0.25)',
       },
-      // Advanced gradients
-      backgroundImage: {
-        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'gradient-conic': 'conic-gradient(var(--tw-gradient-stops))',
-        'glass-gradient':
-          'linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05))',
+      borderRadius: {
+        card: '1.5rem',
       },
-      // Animation keyframes
       keyframes: {
         float: {
           '0%, 100%': { transform: 'translateY(0px)' },
-          '50%': { transform: 'translateY(-20px)' },
+          '50%': { transform: 'translateY(-12px)' },
         },
-        glow: {
-          '0%, 100%': { boxShadow: '0 0 20px rgba(59, 130, 246, 0.5)' },
-          '50%': { boxShadow: '0 0 40px rgba(59, 130, 246, 0.8)' },
+        'pop-in': {
+          '0%': { opacity: '0', transform: 'scale(0.92) translateY(8px)' },
+          '100%': { opacity: '1', transform: 'scale(1) translateY(0)' },
         },
-        shimmer: {
-          '0%': { backgroundPosition: '-200% center' },
-          '100%': { backgroundPosition: '200% center' },
+        'rise-in': {
+          '0%': { opacity: '0', transform: 'translateY(16px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
+        wiggle: {
+          '0%, 100%': { transform: 'rotate(-3deg)' },
+          '50%': { transform: 'rotate(3deg)' },
+        },
+        twinkle: {
+          '0%, 100%': { opacity: '0.25', transform: 'scale(1)' },
+          '50%': { opacity: '0.9', transform: 'scale(1.3)' },
         },
       },
       animation: {
-        float: 'float 3s ease-in-out infinite',
-        glow: 'glow 2s ease-in-out infinite',
-        shimmer: 'shimmer 3s linear infinite',
+        float: 'float 3.5s ease-in-out infinite',
+        'pop-in': 'pop-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) both',
+        'rise-in': 'rise-in 0.55s cubic-bezier(0.22, 1, 0.36, 1) both',
+        wiggle: 'wiggle 0.8s ease-in-out',
+        twinkle: 'twinkle 2.4s ease-in-out infinite',
       },
     },
   },

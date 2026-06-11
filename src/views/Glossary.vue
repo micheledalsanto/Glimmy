@@ -1,50 +1,42 @@
 <template>
-  <AnimatedBackground theme="purple-blue" :particles="true">
-    <div class="container mx-auto p-6 max-w-7xl">
+  <AnimatedBackground>
+    <div class="page max-w-6xl">
       <!-- Header -->
-      <div class="mb-8 mt-16">
-        <h1 class="text-5xl font-bold text-white mb-4">
-          {{ $t('glossary.title') }}
-        </h1>
-        <p class="text-xl text-white/80">
-          {{ $t('glossary.subtitle') }}
-        </p>
+      <div class="mb-10 text-center animate-rise-in">
+        <h1 class="page-title">{{ $t('glossary.title') }}</h1>
+        <p class="page-subtitle">{{ $t('glossary.subtitle') }}</p>
       </div>
 
       <!-- Category Filters -->
-      <div class="flex flex-wrap gap-4 mb-8">
-        <GlassButton
+      <div class="flex flex-wrap justify-center gap-2.5 mb-6">
+        <button
           v-for="cat in categories"
           :key="cat"
           @click="activeCategory = cat"
-          :variant="activeCategory === cat ? 'primary' : 'secondary'"
-          size="md"
+          class="filter-chip"
+          :class="{ active: activeCategory === cat }"
         >
           {{ $t(`glossary.categories.${cat}`) }}
-        </GlassButton>
+        </button>
       </div>
 
       <!-- Search Bar -->
-      <div class="mb-8">
+      <div class="mb-10 max-w-md mx-auto">
         <input
           v-model="searchQuery"
           type="search"
           :placeholder="$t('glossary.search')"
-          class="glass-input w-full p-4 text-white text-lg placeholder-white/50 rounded-xl"
+          class="search-input"
         />
       </div>
 
       <!-- No Results Message -->
       <div v-if="filteredTerms.length === 0" class="text-center py-12">
-        <GlassCard depth="medium">
-          <div class="p-8">
-            <p class="text-2xl text-white">{{ $t('glossary.noResults') }}</p>
-          </div>
-        </GlassCard>
+        <p class="text-xl text-ink-soft">{{ $t('glossary.noResults') }}</p>
       </div>
 
       <!-- Terms Grid -->
-      <div v-else class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-8">
+      <div v-else class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 mb-12 stagger">
         <GlossaryCard
           v-for="term in filteredTerms"
           :key="term.id"
@@ -55,26 +47,22 @@
       </div>
 
       <!-- Progress Tracker -->
-      <div class="mt-12">
-        <GlassCard depth="medium">
-          <div class="p-6 text-center">
-            <p class="text-2xl text-white font-semibold mb-2">
-              {{ $t('glossary.progress') }}
-            </p>
-            <p class="text-4xl text-white font-bold mb-4">
-              {{ viewedCount }} / {{ totalTerms }}
-            </p>
-            <div class="w-full h-4 bg-white/10 rounded-full overflow-hidden">
-              <div
-                class="h-full bg-gradient-to-r from-blue-500 to-purple-500 transition-all duration-500"
-                :style="{ width: progressPercent + '%' }"
-              ></div>
-            </div>
-            <p class="text-sm text-white/70 mt-4">
-              {{ $t('glossary.viewedTerms', { count: viewedCount }) }}
-            </p>
-          </div>
-        </GlassCard>
+      <div class="card max-w-md mx-auto p-6 text-center">
+        <p class="font-display text-lg font-bold text-ink mb-1">
+          {{ $t('glossary.progress') }}
+        </p>
+        <p class="font-display text-4xl font-extrabold text-ink mb-4">
+          {{ viewedCount }} <span class="text-ink-faint text-2xl">/ {{ totalTerms }}</span>
+        </p>
+        <div class="w-full h-3 bg-ink/5 rounded-full overflow-hidden">
+          <div
+            class="h-full bg-sun-400 rounded-full transition-all duration-500"
+            :style="{ width: progressPercent + '%' }"
+          />
+        </div>
+        <p class="text-sm text-ink-soft mt-3">
+          {{ $t('glossary.viewedTerms', { count: viewedCount }) }}
+        </p>
       </div>
     </div>
   </AnimatedBackground>
@@ -84,12 +72,12 @@
 import { ref, computed, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import AnimatedBackground from '../components/AnimatedBackground.vue'
-import GlassButton from '../components/GlassButton.vue'
-import GlassCard from '../components/GlassCard.vue'
 import GlossaryCard from '../components/GlossaryCard.vue'
 import { glossaryData } from '../data/glossary'
+import { useProgress } from '../composables/useProgress'
 
 const { locale } = useI18n()
+const { recordCollectionItem } = useProgress()
 
 const categories = ['all', 'basics', 'concepts', 'applications']
 const activeCategory = ref<string>('all')
@@ -103,12 +91,10 @@ const terms = computed(() => glossaryData[locale.value] || glossaryData.it)
 const filteredTerms = computed(() => {
   let filtered = terms.value
 
-  // Filter by category
   if (activeCategory.value !== 'all') {
     filtered = filtered.filter(term => term.category === activeCategory.value)
   }
 
-  // Filter by search query
   if (searchQuery.value.trim()) {
     const query = searchQuery.value.toLowerCase()
     filtered = filtered.filter(term =>
@@ -133,6 +119,8 @@ const markAsViewed = (termId: string) => {
   if (!viewedTerms.value.includes(termId)) {
     viewedTerms.value.push(termId)
     saveViewedTerms()
+    // Badge "Diplomato del Glossario"
+    recordCollectionItem('glossary', termId)
   }
 }
 
@@ -158,28 +146,55 @@ const saveViewedTerms = () => {
   }
 }
 
-// Load viewed terms on mount
 onMounted(() => {
   loadViewedTerms()
 })
 </script>
 
 <style scoped>
-.glass-input {
-  background: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(12px) saturate(180%);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+.filter-chip {
+  padding: 0.5rem 1.25rem;
+  border-radius: 9999px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #6e7191;
+  background: #ffffff;
+  border: 1.5px solid rgba(43, 45, 66, 0.08);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.filter-chip:hover {
+  border-color: rgba(247, 179, 43, 0.5);
+  color: #2b2d42;
+}
+
+.filter-chip.active {
+  background: #f7b32b;
+  border-color: #f7b32b;
+  color: #2b2d42;
+  box-shadow: 0 6px 16px -6px rgba(229, 157, 19, 0.5);
+}
+
+.search-input {
+  width: 100%;
+  padding: 0.9rem 1.4rem;
+  border-radius: 9999px;
+  font-size: 1.05rem;
+  color: #2b2d42;
+  background: #ffffff;
+  border: 1.5px solid rgba(43, 45, 66, 0.08);
+  box-shadow: 0 1px 2px rgba(43, 45, 66, 0.04), 0 8px 24px -8px rgba(43, 45, 66, 0.1);
   outline: none;
-  transition: all 0.3s ease;
+  transition: all 0.25s ease;
 }
 
-.glass-input:focus {
-  background: rgba(255, 255, 255, 0.25);
-  border-color: rgba(255, 255, 255, 0.4);
-  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+.search-input::placeholder {
+  color: #a0a3bd;
 }
 
-.glass-input::placeholder {
-  color: rgba(255, 255, 255, 0.5);
+.search-input:focus {
+  border-color: rgba(247, 179, 43, 0.7);
+  box-shadow: 0 0 0 4px rgba(247, 179, 43, 0.18);
 }
 </style>

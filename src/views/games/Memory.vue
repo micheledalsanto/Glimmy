@@ -1,90 +1,114 @@
 <template>
-  <main
-    class="relative h-[90vh] bg-gradient-to-br from-indigo-100 to-sky-100 p-6 flex flex-col items-center justify-center"
-  >
-    <!-- Stelline animate -->
-    <div v-for="n in 20" :key="n" class="star" :class="randomStyle()" />
-
-    <h2 class="text-3xl font-semibold text-green-800 mb-6 mt-16">
-      {{ t('games.memory.title') }}
-    </h2>
-
-    <!-- Griglia -->
-    <div
-      class="grid grid-cols-4 gap-4 z-10"
-      :class="{ 'pointer-events-none': matched.length === cards.length }"
-    >
-      <button
-        v-for="(card, index) in cards"
-        :key="index"
-        class="w-16 h-16 sm:w-24 sm:h-24 text-3xl sm:text-4xl bg-white rounded-lg shadow-md flex items-center justify-center font-bold"
-        @click="flipCard(index)"
-        :disabled="flipped.includes(index) || matched.includes(index)"
-      >
-        {{ flipped.includes(index) || matched.includes(index) ? card : '❓️' }}
-      </button>
-    </div>
-
-    <!-- Popup finale -->
-    <div
-      v-if="matched.length === cards.length"
-      class="absolute inset-0 bg-white bg-opacity-90 flex flex-col items-center justify-center z-50 p-8 text-center"
-    >
-      <img
-        :src="glimmy"
-        alt="Glimmy"
-        class="w-32 h-32 mb-4 animate-bounce-slow"
-      />
-      <h3 class="text-3xl font-bold text-blue-700 mb-2">
-        {{ t('games.memory.congrats') }}
-      </h3>
-      <p class="text-lg mb-6">{{ t('games.memory.completed') }}</p>
-      <div class="flex gap-4">
-        <button
-          class="px-6 py-3 bg-yellow-400 hover:bg-yellow-300 rounded-full text-lg shadow"
-          @click="resetGame"
-        >
-          {{ t('games.memory.playAgain') }}
-        </button>
-        <RouterLink
-          to="/menu"
-          class="px-6 py-3 bg-blue-400 hover:bg-blue-300 rounded-full text-lg shadow"
-        >
-          {{ t('games.memory.backMenu') }}
-        </RouterLink>
+  <AnimatedBackground>
+    <div class="page flex flex-col items-center">
+      <div class="text-center mb-8 animate-rise-in">
+        <h2 class="page-title text-3xl sm:text-4xl">{{ t('games.memory.title') }}</h2>
+        <p class="mt-2 text-ink-soft">{{ t('games.memory.moves', { moves }) }}</p>
       </div>
+
+      <!-- Griglia -->
+      <div
+        class="grid grid-cols-4 gap-3 sm:gap-4"
+        :class="{ 'pointer-events-none': completed }"
+      >
+        <button
+          v-for="(card, index) in cards"
+          :key="index"
+          class="memory-card"
+          :class="{ revealed: isRevealed(index), matched: matched.includes(index) }"
+          @click="flipCard(index)"
+          :disabled="isRevealed(index)"
+        >
+          <span class="card-face card-back">
+            <AppIcon name="star" :size="26" />
+          </span>
+          <span class="card-face card-front">{{ card }}</span>
+        </button>
+      </div>
+
+      <!-- Popup finale -->
+      <Transition name="pop">
+        <div v-if="completed" class="fixed inset-0 z-50 flex items-center justify-center bg-ink/30 backdrop-blur-sm p-6">
+          <div class="card max-w-sm w-full p-8 text-center animate-pop-in">
+            <img :src="glimmy" alt="Glimmy" class="w-28 h-28 mx-auto mb-4 animate-float" />
+            <h3 class="font-display text-3xl font-bold text-ink mb-2">
+              {{ t('games.memory.congrats') }}
+            </h3>
+            <p class="text-ink-soft mb-6">{{ t('games.memory.completed') }}</p>
+            <div class="flex gap-3 justify-center flex-wrap">
+              <GlassButton variant="primary" @click="resetGame">
+                {{ t('games.memory.playAgain') }}
+              </GlassButton>
+              <RouterLink to="/games">
+                <GlassButton variant="ghost">
+                  {{ t('games.memory.backMenu') }}
+                </GlassButton>
+              </RouterLink>
+            </div>
+          </div>
+        </div>
+      </Transition>
     </div>
-  </main>
+  </AnimatedBackground>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { RouterLink } from 'vue-router'
+import AnimatedBackground from '../../components/AnimatedBackground.vue'
+import AppIcon from '../../components/AppIcon.vue'
+import GlassButton from '../../components/GlassButton.vue'
+import { useProgress } from '../../composables/useProgress'
+import { useSound } from '../../composables/useSound'
+import { useGlimmy } from '../../composables/useGlimmy'
 
-// Traduzioni
 const { t } = useI18n()
+const { recordGameComplete } = useProgress()
+const { playFlip, playCorrect, playFanfare } = useSound()
+const { react, say } = useGlimmy()
 
-// Emoji tematiche AI
+const glimmy = new URL('../../assets/images/glimmy.png', import.meta.url).href
+
 const baseEmojis = ['🤖', '🧠', '💾', '📡', '⚙️', '🔍', '🛰️', '📱']
 const cards = ref(shuffle([...baseEmojis, ...baseEmojis]))
 
 const flipped = ref<number[]>([])
 const matched = ref<number[]>([])
+const moves = ref(0)
+const startTime = ref(Date.now())
+const completed = computed(() => matched.value.length === cards.value.length)
+
+function isRevealed(index: number) {
+  return flipped.value.includes(index) || matched.value.includes(index)
+}
 
 function flipCard(index: number) {
   if (flipped.value.length < 2 && !flipped.value.includes(index)) {
+    playFlip()
     flipped.value.push(index)
     if (flipped.value.length === 2) {
+      moves.value++
       const [first, second] = flipped.value
       if (cards.value[first] === cards.value[second]) {
         matched.value.push(first, second)
+        playCorrect()
+        react('happy', 1200)
+        if (completed.value) onComplete()
       }
       setTimeout(() => {
         flipped.value = []
-      }, 1000)
+      }, 900)
     }
   }
+}
+
+function onComplete() {
+  const durationSec = Math.round((Date.now() - startTime.value) / 1000)
+  playFanfare()
+  react('celebrate', 3000)
+  say(t('glimmy.gameWin'), { durationMs: 3500 })
+  recordGameComplete('memory', { durationSec })
 }
 
 function shuffle(array: string[]) {
@@ -100,40 +124,79 @@ function resetGame() {
   cards.value = shuffle([...baseEmojis, ...baseEmojis])
   flipped.value = []
   matched.value = []
+  moves.value = 0
+  startTime.value = Date.now()
 }
-
-const glimmy = new URL('../../assets/images/glimmy.png', import.meta.url).href
-
-function randomStyle() {
-  const styles = ['bg-red-200', 'bg-yellow-100', 'bg-lime-100']
-  return styles[Math.floor(Math.random() * styles.length)]
-}
-
 </script>
 
 <style scoped>
-.star {
+.memory-card {
+  position: relative;
+  width: 4.25rem;
+  height: 4.25rem;
+  border-radius: 1rem;
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: 0;
+  perspective: 600px;
+}
+
+@media (min-width: 640px) {
+  .memory-card {
+    width: 5.5rem;
+    height: 5.5rem;
+  }
+}
+
+.card-face {
   position: absolute;
-  background-color: white;
-  border-radius: 50%;
-  opacity: 0.8;
-  animation: twinkle 2s infinite ease-in-out;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 1rem;
+  font-size: 1.75rem;
+  backface-visibility: hidden;
+  transition: transform 0.45s cubic-bezier(0.34, 1.2, 0.64, 1);
 }
 
-@keyframes twinkle {
-  0%, 100% { opacity: 0.2; transform: scale(1); }
-  50% { opacity: 1; transform: scale(1.5); }
+@media (min-width: 640px) {
+  .card-face { font-size: 2.25rem; }
 }
 
-@keyframes bounce-slow {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
+.card-back {
+  background: #ffffff;
+  color: #f7b32b;
+  border: 1px solid rgba(43, 45, 66, 0.06);
+  box-shadow: 0 1px 2px rgba(43, 45, 66, 0.04), 0 8px 24px -8px rgba(43, 45, 66, 0.14);
 }
-.animate-bounce-slow {
-  animation: bounce-slow 2.5s infinite;
+
+.memory-card:hover .card-back {
+  box-shadow: 0 2px 4px rgba(43, 45, 66, 0.05), 0 12px 32px -10px rgba(43, 45, 66, 0.2);
 }
+
+.card-front {
+  background: #fff8e6;
+  border: 1.5px solid rgba(247, 179, 43, 0.4);
+  transform: rotateY(180deg);
+}
+
+.memory-card.revealed .card-back { transform: rotateY(-180deg); }
+.memory-card.revealed .card-front { transform: rotateY(0); }
+
+.memory-card.matched .card-front {
+  background: #eaf8f2;
+  border-color: rgba(63, 191, 143, 0.5);
+  animation: match-pulse 0.5s ease;
+}
+
+@keyframes match-pulse {
+  0%, 100% { transform: rotateY(0) scale(1); }
+  50% { transform: rotateY(0) scale(1.1); }
+}
+
+.pop-enter-active { transition: opacity 0.3s ease; }
+.pop-leave-active { transition: opacity 0.2s ease; }
+.pop-enter-from, .pop-leave-to { opacity: 0; }
 </style>

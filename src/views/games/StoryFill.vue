@@ -1,161 +1,128 @@
 <template>
-  <AnimatedBackground theme="yellow-pink" :particles="true">
-    <div class="container mx-auto p-6 max-w-4xl">
+  <AnimatedBackground>
+    <div class="page max-w-3xl">
       <!-- Header -->
-      <div class="mb-8 text-center mt-16">
-        <h1 class="text-5xl font-bold text-white mb-4">
-          {{ $t('games.storyFill.title') }}
-        </h1>
-        <p class="text-xl text-white/80">
-          {{ $t('games.storyFill.instruction') }}
-        </p>
+      <div class="mb-10 text-center animate-rise-in">
+        <h1 class="page-title text-3xl sm:text-4xl">{{ $t('games.storyFill.title') }}</h1>
+        <p class="page-subtitle">{{ $t('games.storyFill.instruction') }}</p>
       </div>
 
-      <!-- Story Container -->
-      <div v-if="!revealed" class="story-builder mb-8">
-        <GlassCard depth="deep">
-          <div class="p-8">
-            <!-- Story Title -->
-            <h2 class="text-3xl font-bold text-white text-center mb-8">
-              {{ currentStory.title }}
-            </h2>
+      <!-- Story Builder -->
+      <div v-if="!revealed" class="card p-7 sm:p-9 animate-pop-in">
+        <h2 class="font-display text-2xl font-bold text-ink text-center mb-8">
+          {{ currentStory.title }}
+        </h2>
 
-            <!-- Story Segments -->
-            <div class="story-text text-2xl text-white leading-relaxed mb-8">
-              <span v-for="(segment, index) in currentStory.segments" :key="index">
-                <span v-if="!segment.blank">{{ segment.text }}</span>
-                <span v-else class="blank-container inline-flex items-center mx-1">
-                  <GlassButton
-                    v-if="!filledBlanks[index]"
-                    @click="selectBlank(index)"
-                    variant="warning"
-                    size="md"
-                    class="blank-button"
-                  >
-                    [ ____ ]
-                  </GlassButton>
-                  <span
-                    v-else
-                    class="filled-word px-4 py-2 bg-yellow-400/30 border-2 border-yellow-400 rounded-lg font-bold text-yellow-200 animate-pop"
-                  >
-                    {{ filledBlanks[index] }}
-                  </span>
-                </span>
+        <!-- Story Segments -->
+        <div class="text-xl text-ink leading-loose mb-8">
+          <span v-for="(segment, index) in currentStory.segments" :key="index">
+            <span v-if="!segment.blank">{{ segment.text }}&nbsp;</span>
+            <span v-else class="inline-flex items-center align-middle mx-1 my-1">
+              <button
+                v-if="!filledBlanks[index]"
+                @click="selectBlank(index)"
+                class="blank-btn"
+              >
+                ____
+              </button>
+              <span v-else class="filled-word">
+                {{ filledBlanks[index] }}
               </span>
-            </div>
+            </span>
+          </span>
+        </div>
 
-            <!-- Progress -->
-            <div class="progress-section mb-6">
-              <div class="w-full h-3 bg-white/10 rounded-full overflow-hidden">
-                <div
-                  class="h-full bg-gradient-to-r from-yellow-400 to-pink-500 transition-all duration-500"
-                  :style="{ width: progressPercent + '%' }"
-                ></div>
-              </div>
-              <p class="text-sm text-white/70 text-center mt-2">
-                {{ filledBlanksCount }} / {{ totalBlanks }} {{ $t('games.storyFill.wordsFilled') }}
-              </p>
-            </div>
-
-            <!-- Reveal Button -->
-            <GlassButton
-              v-if="allBlanksFilled"
-              @click="revealStory"
-              variant="success"
-              size="xl"
-              icon="✨"
-              class="w-full animate-bounce-soft"
-            >
-              {{ $t('games.storyFill.reveal') }}
-            </GlassButton>
+        <!-- Progress -->
+        <div class="mb-6">
+          <div class="w-full h-2.5 bg-ink/5 rounded-full overflow-hidden">
+            <div
+              class="h-full bg-sun-400 rounded-full transition-all duration-500"
+              :style="{ width: progressPercent + '%' }"
+            />
           </div>
-        </GlassCard>
+          <p class="text-sm text-ink-soft text-center mt-2">
+            {{ filledBlanksCount }} / {{ totalBlanks }} {{ $t('games.storyFill.wordsFilled') }}
+          </p>
+        </div>
+
+        <!-- Reveal Button -->
+        <GlassButton
+          v-if="allBlanksFilled"
+          @click="revealStory"
+          variant="primary"
+          size="lg"
+          class="w-full"
+        >
+          ✨ {{ $t('games.storyFill.reveal') }}
+        </GlassButton>
       </div>
 
       <!-- Word Selection Modal -->
-      <transition name="fade">
+      <Transition name="fade">
         <div
           v-if="selectingBlankIndex !== null"
-          class="word-modal fixed inset-0 flex items-center justify-center z-50 p-6"
+          class="fixed inset-0 flex items-center justify-center z-50 p-6 bg-ink/30 backdrop-blur-sm"
           @click.self="cancelSelection"
         >
-          <div class="absolute inset-0 bg-black/50 backdrop-blur-sm"></div>
-          <GlassCard depth="deep" class="relative z-10 max-w-2xl w-full">
-            <div class="p-8">
-              <!-- Close button -->
+          <div class="card relative max-w-xl w-full p-7 animate-pop-in">
+            <button
+              @click="cancelSelection"
+              class="absolute top-4 right-4 text-ink-faint hover:text-ink transition"
+              :aria-label="$t('common.close')"
+            >
+              <AppIcon name="x" :size="22" />
+            </button>
+
+            <h3 class="font-display text-xl font-bold text-ink text-center mb-6">
+              {{ $t('games.storyFill.selectWord') }}
+            </h3>
+
+            <div class="grid grid-cols-2 gap-3">
               <button
-                @click="cancelSelection"
-                class="absolute top-4 right-4 text-white/70 hover:text-white text-3xl"
+                v-for="option in currentBlankOptions"
+                :key="option"
+                @click="fillBlank(option)"
+                class="word-option"
               >
-                ×
+                {{ option }}
               </button>
-
-              <!-- Instructions -->
-              <h3 class="text-2xl font-bold text-white text-center mb-6">
-                {{ $t('games.storyFill.selectWord') }}
-              </h3>
-
-              <!-- Word Options -->
-              <div class="grid grid-cols-2 gap-4">
-                <GlassButton
-                  v-for="option in currentBlankOptions"
-                  :key="option"
-                  @click="fillBlank(option)"
-                  variant="primary"
-                  size="xl"
-                  class="word-option"
-                >
-                  {{ option }}
-                </GlassButton>
-              </div>
-            </div>
-          </GlassCard>
-        </div>
-      </transition>
-
-      <!-- Revealed Story -->
-      <div v-if="revealed" class="revealed-story">
-        <GlassCard depth="deep">
-          <div class="p-8">
-            <!-- Celebration -->
-            <div class="celebration text-center mb-8">
-              <div class="text-8xl mb-4 animate-bounce">🎉</div>
-              <h2 class="text-4xl font-bold text-white mb-4">
-                {{ $t('games.storyFill.yourStory') }}
-              </h2>
-              <h3 class="text-2xl font-semibold text-white/90 mb-6">
-                {{ currentStory.title }}
-              </h3>
-            </div>
-
-            <!-- Complete Story Text -->
-            <div class="complete-story-text text-2xl text-white leading-relaxed mb-8 p-6 bg-white/10 rounded-xl">
-              {{ completeStoryText }}
-            </div>
-
-            <!-- Action Buttons -->
-            <div class="flex gap-4">
-              <GlassButton
-                @click="playAgain"
-                variant="primary"
-                size="xl"
-                icon="🔄"
-                class="flex-1"
-              >
-                {{ $t('games.storyFill.playAgain') }}
-              </GlassButton>
-              <GlassButton
-                @click="$router.push('/games')"
-                variant="secondary"
-                size="xl"
-                icon="🎮"
-                class="flex-1"
-              >
-                {{ $t('common.backToMenu') }}
-              </GlassButton>
             </div>
           </div>
-        </GlassCard>
+        </div>
+      </Transition>
+
+      <!-- Revealed Story -->
+      <div v-if="revealed" class="card p-7 sm:p-9 animate-pop-in">
+        <div class="text-center mb-8">
+          <div class="text-7xl mb-4 animate-wiggle inline-block">🎉</div>
+          <h2 class="font-display text-3xl font-bold text-ink mb-1">
+            {{ $t('games.storyFill.yourStory') }}
+          </h2>
+          <h3 class="text-lg font-semibold text-ink-soft">
+            {{ currentStory.title }}
+          </h3>
+        </div>
+
+        <div class="relative text-xl text-ink leading-loose mb-8 p-6 bg-cream rounded-2xl border border-ink/5">
+          {{ completeStoryText }}
+          <button
+            v-if="ttsSupported"
+            class="tts-btn absolute -top-3 -right-3"
+            :aria-label="$t('common.readAloud')"
+            @click="speak(completeStoryText, locale)"
+          >
+            <AppIcon name="speaker" :size="18" />
+          </button>
+        </div>
+
+        <div class="flex gap-3 flex-wrap justify-center">
+          <GlassButton @click="playAgain" variant="primary" size="lg">
+            {{ $t('games.storyFill.playAgain') }}
+          </GlassButton>
+          <GlassButton @click="$router.push('/games')" variant="ghost" size="lg">
+            {{ $t('common.backToMenu') }}
+          </GlassButton>
+        </div>
       </div>
     </div>
   </AnimatedBackground>
@@ -165,11 +132,19 @@
 import { ref, computed, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import AnimatedBackground from '../../components/AnimatedBackground.vue'
+import AppIcon from '../../components/AppIcon.vue'
 import GlassButton from '../../components/GlassButton.vue'
-import GlassCard from '../../components/GlassCard.vue'
-import { storyFillData, type StoryFillTemplate } from '../../data/storyFill'
+import { storyFillData } from '../../data/storyFill'
+import { useProgress } from '../../composables/useProgress'
+import { useSound } from '../../composables/useSound'
+import { useSpeech } from '../../composables/useSpeech'
+import { useGlimmy } from '../../composables/useGlimmy'
 
-const { locale } = useI18n()
+const { t, locale } = useI18n()
+const { recordGameComplete } = useProgress()
+const { playClick, playFanfare } = useSound()
+const { speak, supported: ttsSupported } = useSpeech()
+const { react, say } = useGlimmy()
 
 // Get stories for current locale
 const stories = computed(() => storyFillData[locale.value] || storyFillData.it)
@@ -182,6 +157,7 @@ const currentStory = computed(() => stories.value[currentStoryIndex.value])
 const filledBlanks = ref<Record<number, string>>({})
 const selectingBlankIndex = ref<number | null>(null)
 const revealed = ref<boolean>(false)
+const startTime = ref(Date.now())
 
 // Get current blank options
 const currentBlankOptions = computed(() => {
@@ -215,28 +191,27 @@ const completeStoryText = computed(() => {
   let text = ''
   currentStory.value.segments.forEach((segment, index) => {
     if (segment.blank) {
-      text += filledBlanks.value[index] || '[___]'
+      text += (filledBlanks.value[index] || '[___]') + ' '
     } else {
-      text += segment.text
+      text += (segment.text ?? '') + ' '
     }
   })
-  return text
+  return text.trim()
 })
 
 // Select blank to fill
 const selectBlank = (index: number) => {
+  playClick()
   selectingBlankIndex.value = index
 }
 
-// Cancel selection
 const cancelSelection = () => {
   selectingBlankIndex.value = null
 }
 
-// Fill blank with selected word
 const fillBlank = (word: string) => {
   if (selectingBlankIndex.value === null) return
-
+  playClick()
   filledBlanks.value[selectingBlankIndex.value] = word
   selectingBlankIndex.value = null
 }
@@ -244,11 +219,15 @@ const fillBlank = (word: string) => {
 // Reveal story
 const revealStory = () => {
   revealed.value = true
+  const durationSec = Math.round((Date.now() - startTime.value) / 1000)
+  recordGameComplete('story-fill', { durationSec })
+  playFanfare()
+  react('celebrate', 3000)
+  say(t('glimmy.storyDone'), { durationMs: 3500 })
 }
 
 // Play again
 const playAgain = () => {
-  // Pick a random story (different from current)
   let newIndex = currentStoryIndex.value
   if (stories.value.length > 1) {
     do {
@@ -259,87 +238,92 @@ const playAgain = () => {
   currentStoryIndex.value = newIndex
   filledBlanks.value = {}
   revealed.value = false
+  startTime.value = Date.now()
 }
 
-// Initialize
 onMounted(() => {
-  // Start with a random story
   currentStoryIndex.value = Math.floor(Math.random() * stories.value.length)
 })
 </script>
 
 <style scoped>
-.blank-container {
-  display: inline-flex;
-  vertical-align: middle;
+.blank-btn {
+  padding: 0.25rem 1.1rem;
+  border-radius: 9999px;
+  font-weight: 700;
+  font-family: 'Baloo 2', sans-serif;
+  color: #c4830a;
+  background: #fff8e6;
+  border: 2px dashed rgba(247, 179, 43, 0.7);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  animation: blank-pulse 2s ease-in-out infinite;
 }
 
-.blank-button {
-  animation: pulse-slow 2s ease-in-out infinite;
+.blank-btn:hover {
+  background: #ffefc2;
+  transform: scale(1.06);
+  animation: none;
 }
 
-@keyframes pulse-slow {
-  0%, 100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.7;
-  }
+@keyframes blank-pulse {
+  0%, 100% { border-color: rgba(247, 179, 43, 0.7); }
+  50% { border-color: rgba(247, 179, 43, 0.3); }
 }
 
 .filled-word {
   display: inline-block;
+  padding: 0.25rem 1rem;
+  border-radius: 9999px;
+  font-weight: 700;
+  color: #23855f;
+  background: #eaf8f2;
+  border: 2px solid rgba(63, 191, 143, 0.5);
   animation: pop 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 
 @keyframes pop {
-  0% {
-    transform: scale(0);
-  }
-  50% {
-    transform: scale(1.1);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-
-.animate-pop {
-  animation: pop 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-}
-
-.animate-bounce-soft {
-  animation: bounce-soft 2s ease-in-out infinite;
-}
-
-@keyframes bounce-soft {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
+  0% { transform: scale(0); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
 }
 
 .word-option {
-  transition: all 0.3s ease;
+  padding: 0.9rem 1rem;
+  border-radius: 1rem;
+  font-weight: 600;
+  font-size: 1.05rem;
+  color: #2b2d42;
+  background: #fbf8f2;
+  border: 1.5px solid rgba(43, 45, 66, 0.08);
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
 .word-option:hover {
-  transform: scale(1.05);
+  border-color: rgba(247, 179, 43, 0.6);
+  background: #fff8e6;
+  transform: translateY(-2px);
 }
 
-.word-modal {
-  animation: fadeIn 0.3s ease;
+.tts-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.4rem;
+  height: 2.4rem;
+  border-radius: 9999px;
+  background: #eef6fc;
+  color: #2a6ba5;
+  border: 1px solid rgba(43, 45, 66, 0.06);
+  box-shadow: 0 4px 12px -4px rgba(43, 45, 66, 0.2);
+  cursor: pointer;
+  transition: transform 0.18s ease, background 0.18s ease;
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+.tts-btn:hover {
+  background: #d8ebf8;
+  transform: scale(1.08);
 }
 
 .fade-enter-active,
@@ -350,24 +334,5 @@ onMounted(() => {
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
-}
-
-.celebration {
-  animation: fadeIn 0.6s ease;
-}
-
-.complete-story-text {
-  animation: slideUp 0.6s ease;
-}
-
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
 }
 </style>

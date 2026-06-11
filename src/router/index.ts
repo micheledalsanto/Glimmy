@@ -13,6 +13,7 @@ import Guess from '../views/games/GuessAI.vue'
 import CompletePhrase from '../views/games/CompletePhraseGame.vue'
 import Quiz from '../views/games/Quiz.vue'
 import StoryFill from '../views/games/StoryFill.vue'
+import TrainRobot from '../views/games/TrainRobot.vue'
 
 const routes = [
   {
@@ -61,6 +62,11 @@ const routes = [
             path: 'story-fill',
             name: 'StoryFill',
             component: StoryFill
+          },
+          {
+            path: 'train-robot',
+            name: 'TrainRobot',
+            component: TrainRobot
           }
         ]
       },

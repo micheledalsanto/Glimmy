@@ -1,24 +1,18 @@
 <template>
   <button
-    class="glass-button-component"
-    :class="[
-      `variant-${variant}`,
-      `size-${size}`,
-      { disabled: disabled }
-    ]"
+    class="btn"
+    :class="[`variant-${variant}`, `size-${size}`, { disabled: disabled }]"
     :disabled="disabled"
     @click="$emit('click', $event)"
   >
-    <span v-if="icon" class="button-icon">{{ icon }}</span>
-    <span class="button-label">
-      <slot />
-    </span>
+    <span v-if="icon" class="text-[1.2em] leading-none">{{ icon }}</span>
+    <span class="whitespace-nowrap"><slot /></span>
   </button>
 </template>
 
 <script setup lang="ts">
 interface Props {
-  variant?: 'primary' | 'secondary' | 'success' | 'warning' | 'danger'
+  variant?: 'primary' | 'secondary' | 'success' | 'warning' | 'danger' | 'ghost'
   size?: 'sm' | 'md' | 'lg' | 'xl'
   icon?: string
   disabled?: boolean
@@ -37,124 +31,100 @@ defineEmits<{
 </script>
 
 <style scoped>
-.glass-button-component {
+.btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  font-weight: 600;
-  border-radius: 0.75rem;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  font-family: 'Baloo 2', sans-serif;
+  font-weight: 700;
+  border-radius: 9999px;
+  border: none;
   cursor: pointer;
-  position: relative;
-  overflow: hidden;
+  color: #2b2d42;
+  transition: transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.18s ease, background 0.18s ease;
+}
+
+.btn:hover:not(.disabled) {
+  transform: translateY(-2px);
+}
+
+.btn:active:not(.disabled) {
+  transform: translateY(1px) scale(0.98);
+}
+
+.btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(247, 179, 43, 0.35);
 }
 
 /* Sizes */
-.size-sm {
-  padding: 0.5rem 1rem;
-  font-size: 0.875rem;
-}
+.size-sm { padding: 0.45rem 1.1rem; font-size: 0.875rem; }
+.size-md { padding: 0.65rem 1.5rem; font-size: 1rem; }
+.size-lg { padding: 0.85rem 2rem; font-size: 1.125rem; }
+.size-xl { padding: 1.05rem 2.6rem; font-size: 1.3rem; }
 
-.size-md {
-  padding: 0.75rem 1.5rem;
-  font-size: 1rem;
-}
-
-.size-lg {
-  padding: 1rem 2rem;
-  font-size: 1.125rem;
-}
-
-.size-xl {
-  padding: 1.25rem 2.5rem;
-  font-size: 1.25rem;
-}
-
-/* Variants */
+/* Variants — colore pieno con "spessore" in basso, stile giocattolo raffinato */
 .variant-primary {
-  background: rgba(59, 130, 246, 0.3);
-  color: white;
-  border-color: rgba(59, 130, 246, 0.5);
+  background: #f7b32b;
+  box-shadow: 0 3px 0 #c4830a, 0 10px 24px -8px rgba(229, 157, 19, 0.5);
 }
-
 .variant-primary:hover:not(.disabled) {
-  background: rgba(59, 130, 246, 0.4);
-  transform: translateY(-2px) scale(1.02);
-  box-shadow: 0 8px 24px rgba(59, 130, 246, 0.4);
+  background: #ffce4f;
+  box-shadow: 0 4px 0 #c4830a, 0 14px 28px -8px rgba(229, 157, 19, 0.55);
 }
 
 .variant-secondary {
-  background: rgba(168, 85, 247, 0.3);
-  color: white;
-  border-color: rgba(168, 85, 247, 0.5);
+  background: #4e9de0;
+  color: #ffffff;
+  box-shadow: 0 3px 0 #2a6ba5, 0 10px 24px -8px rgba(55, 132, 199, 0.5);
 }
-
 .variant-secondary:hover:not(.disabled) {
-  background: rgba(168, 85, 247, 0.4);
-  transform: translateY(-2px) scale(1.02);
-  box-shadow: 0 8px 24px rgba(168, 85, 247, 0.4);
+  background: #6cb0e8;
+  box-shadow: 0 4px 0 #2a6ba5, 0 14px 28px -8px rgba(55, 132, 199, 0.55);
 }
 
 .variant-success {
-  background: rgba(34, 197, 94, 0.3);
-  color: white;
-  border-color: rgba(34, 197, 94, 0.5);
+  background: #3fbf8f;
+  color: #ffffff;
+  box-shadow: 0 3px 0 #23855f, 0 10px 24px -8px rgba(46, 164, 120, 0.5);
 }
-
 .variant-success:hover:not(.disabled) {
-  background: rgba(34, 197, 94, 0.4);
-  transform: translateY(-2px) scale(1.02);
-  box-shadow: 0 8px 24px rgba(34, 197, 94, 0.4);
+  background: #5ccda2;
+  box-shadow: 0 4px 0 #23855f, 0 14px 28px -8px rgba(46, 164, 120, 0.55);
 }
 
 .variant-warning {
-  background: rgba(251, 191, 36, 0.3);
-  color: white;
-  border-color: rgba(251, 191, 36, 0.5);
+  background: #ffe08a;
+  box-shadow: 0 3px 0 #e59d13, 0 10px 24px -8px rgba(229, 157, 19, 0.4);
 }
-
 .variant-warning:hover:not(.disabled) {
-  background: rgba(251, 191, 36, 0.4);
-  transform: translateY(-2px) scale(1.02);
-  box-shadow: 0 8px 24px rgba(251, 191, 36, 0.4);
+  background: #ffefc2;
 }
 
 .variant-danger {
-  background: rgba(239, 68, 68, 0.3);
-  color: white;
-  border-color: rgba(239, 68, 68, 0.5);
+  background: #f0766b;
+  color: #ffffff;
+  box-shadow: 0 3px 0 #c03e33, 0 10px 24px -8px rgba(222, 88, 76, 0.5);
 }
-
 .variant-danger:hover:not(.disabled) {
-  background: rgba(239, 68, 68, 0.4);
-  transform: translateY(-2px) scale(1.02);
-  box-shadow: 0 8px 24px rgba(239, 68, 68, 0.4);
+  background: #f5938a;
 }
 
-/* Active state */
-.glass-button-component:active:not(.disabled) {
-  transform: translateY(0) scale(0.98);
+.variant-ghost {
+  background: transparent;
+  color: #2b2d42;
+  box-shadow: inset 0 0 0 2px rgba(43, 45, 66, 0.15);
+}
+.variant-ghost:hover:not(.disabled) {
+  background: rgba(43, 45, 66, 0.05);
+  box-shadow: inset 0 0 0 2px rgba(43, 45, 66, 0.25);
 }
 
-/* Disabled state */
+/* Disabled */
 .disabled {
-  opacity: 0.5;
+  opacity: 0.45;
   cursor: not-allowed;
   pointer-events: none;
-}
-
-/* Icon */
-.button-icon {
-  font-size: 1.2em;
-  line-height: 1;
-}
-
-/* Label */
-.button-label {
-  white-space: nowrap;
 }
 </style>

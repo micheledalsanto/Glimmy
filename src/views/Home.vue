@@ -1,78 +1,67 @@
 <template>
-  <div
-    class="relative h-[90vh] overflow-hidden bg-gradient-to-b from-sky-200 via-indigo-100 to-fuchsia-100 flex flex-col items-center justify-center p-8 text-center"
-  >
-    <!-- Stelline animate -->
-    <div v-for="n in 20" :key="n" class="star" :class="randomStyle()" />
+  <AnimatedBackground :particle-count="14">
+    <div class="min-h-[88vh] flex flex-col items-center justify-center px-6 text-center">
+      <div class="stagger flex flex-col items-center">
+        <!-- Mascotte -->
+        <div class="relative mb-8">
+          <div class="halo" aria-hidden="true" />
+          <img
+            :src="glimmy"
+            alt="Glimmy"
+            class="relative w-44 h-44 sm:w-52 sm:h-52 animate-float drop-shadow-xl"
+          />
+        </div>
 
-    <!-- Mascotte -->
-    <img
-      :src="glimmy"
-      alt="Glimmy"
-      class="w-48 h-48 mb-6 animate-bounce-slow z-10"
-    />
+        <!-- Titolo -->
+        <h1 class="font-display text-5xl sm:text-6xl font-extrabold text-ink tracking-tight max-w-2xl">
+          {{ t('home.title') }}
+        </h1>
 
-    <!-- Titolo -->
-    <h1 class="text-5xl font-semibold text-blue-800 leading-snug drop-shadow-md z-10">
-      {{ t('home.title') }}
-    </h1>
+        <!-- Sottotitolo -->
+        <p class="mt-5 text-lg sm:text-xl text-ink-soft max-w-md leading-relaxed">
+          {{ t('home.subtitle') }}
+        </p>
 
-    <!-- Sottotitolo -->
-    <p class="mt-4 text-xl text-gray-800 max-w-md z-10">
-      {{ t('home.subtitle') }}
-    </p>
+        <!-- CTA -->
+        <RouterLink to="/menu" class="mt-10">
+          <GlassButton size="xl" variant="primary" @click="playClick">
+            {{ t('home.start') }}
+          </GlassButton>
+        </RouterLink>
 
-    <!-- Bottone Start -->
-    <RouterLink to="/menu">
-      <button
-        class="mt-10 px-10 py-5 bg-yellow-400 hover:bg-yellow-300 text-black text-2xl font-semibold rounded-full shadow-xl transition-all duration-200 z-10"
-      >
-        {{ t('home.start') }}
-      </button>
-    </RouterLink>
-  </div>
+        <!-- Riga di fiducia per i genitori -->
+        <p class="mt-8 text-sm text-ink-faint">
+          {{ t('home.tagline') }}
+        </p>
+      </div>
+    </div>
+  </AnimatedBackground>
 </template>
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
 import { RouterLink } from 'vue-router'
+import AnimatedBackground from '../components/AnimatedBackground.vue'
+import GlassButton from '../components/GlassButton.vue'
+import { useSound } from '../composables/useSound'
 
 const { t } = useI18n()
+const { playClick } = useSound()
 const glimmy = new URL('../assets/images/glimmy.png', import.meta.url).href
-
-// Funzione per generare posizione e animazione random
-function randomStyle() {
-  const styles = ['bg-red-200', 'bg-yellow-100', 'bg-lime-100']
-  return styles[Math.floor(Math.random() * styles.length)]
-}
-
 </script>
 
 <style scoped>
-/* Stelline animate */
-.star {
+/* Alone solare dietro la mascotte */
+.halo {
   position: absolute;
-  background-color: white;
+  inset: -2.5rem;
   border-radius: 50%;
-  opacity: 0.8;
-  animation: twinkle 2s infinite ease-in-out;
+  background: radial-gradient(circle, rgba(247, 179, 43, 0.28), transparent 65%);
+  animation: halo-pulse 4s ease-in-out infinite;
 }
 
-@keyframes twinkle {
-  0%, 100% { opacity: 0.2; transform: scale(1); }
-  50% { opacity: 1; transform: scale(1.5); }
-}
-
-/* Animazione bounce lenta per la mascotte */
-@keyframes bounce-slow {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
-}
-.animate-bounce-slow {
-  animation: bounce-slow 2.5s infinite;
+@keyframes halo-pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.12); opacity: 0.75; }
 }
 </style>

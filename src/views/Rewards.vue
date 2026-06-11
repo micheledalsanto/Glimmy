@@ -1,206 +1,158 @@
 <template>
-  <AnimatedBackground theme="rainbow" :particles="true">
-    <div class="container mx-auto p-6 max-w-7xl">
+  <AnimatedBackground>
+    <div class="page max-w-6xl">
       <!-- Header -->
-      <div class="mb-8 mt-16">
-        <h1 class="text-5xl font-bold text-white mb-4">
-          {{ $t('rewards.title') }}
-        </h1>
-        <p class="text-xl text-white/80">
-          {{ $t('rewards.subtitle') }}
-        </p>
+      <div class="mb-10 text-center animate-rise-in">
+        <h1 class="page-title">{{ $t('rewards.title') }}</h1>
+        <p class="page-subtitle">{{ $t('rewards.subtitle') }}</p>
       </div>
 
       <!-- Stats Dashboard -->
-      <div class="stats-panel mb-12">
-        <GlassCard depth="deep">
-          <div class="p-6">
-            <h2 class="text-2xl font-bold text-white mb-6 text-center">
-              {{ $t('rewards.stats.title') }}
-            </h2>
-            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
-              <StatItem
-                icon="🎮"
-                :value="userProgress.totalGamesPlayed"
-                :label="$t('rewards.stats.totalGames')"
-              />
-              <StatItem
-                icon="🔥"
-                :value="userProgress.streakDays"
-                :label="$t('rewards.stats.streak')"
-              />
-              <StatItem
-                icon="⭐"
-                :value="userProgress.totalPoints"
-                :label="$t('rewards.stats.points')"
-              />
-              <StatItem
-                icon="🗺️"
-                :value="userProgress.sectionsVisited.length"
-                :label="$t('rewards.stats.sectionsVisited')"
-              />
-              <StatItem
-                icon="🏆"
-                :value="userProgress.unlockedBadges.length"
-                :label="$t('rewards.stats.badgesUnlocked')"
-                :sublabel="`${userProgress.unlockedBadges.length} / ${badges.length}`"
-              />
-            </div>
-          </div>
-        </GlassCard>
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-12 stagger">
+        <StatItem
+          icon="🎮"
+          :value="progress.totalGamesPlayed"
+          :label="$t('rewards.stats.totalGames')"
+        />
+        <StatItem
+          icon="🔥"
+          :value="progress.streakDays"
+          :label="$t('rewards.stats.streak')"
+        />
+        <StatItem
+          icon="⭐"
+          :value="progress.totalPoints"
+          :label="$t('rewards.stats.points')"
+        />
+        <StatItem
+          icon="🗺️"
+          :value="progress.sectionsVisited.length"
+          :label="$t('rewards.stats.sectionsVisited')"
+        />
+        <StatItem
+          icon="🏆"
+          :value="progress.unlockedBadges.length"
+          :label="$t('rewards.stats.badgesUnlocked')"
+          :sublabel="`${progress.unlockedBadges.length} / ${badges.length}`"
+        />
       </div>
 
       <!-- Filter by Rarity -->
-      <div class="filter-section mb-8 flex flex-wrap gap-4 items-center">
-        <span class="text-white font-semibold">{{ $t('rewards.filterByRarity') }}:</span>
-        <GlassButton
+      <div class="mb-8 flex flex-wrap justify-center gap-2.5">
+        <button
           v-for="rarity in rarities"
           :key="rarity"
           @click="activeRarity = rarity"
-          :variant="activeRarity === rarity ? 'primary' : 'secondary'"
-          size="sm"
+          class="filter-chip"
+          :class="{ active: activeRarity === rarity }"
         >
           {{ $t(`rewards.badges.${rarity}`) }}
-          <span class="ml-2 text-xs opacity-70">
-            ({{ getBadgeCountByRarity(rarity) }})
-          </span>
-        </GlassButton>
+          <span class="opacity-60">({{ getBadgeCountByRarity(rarity) }})</span>
+        </button>
       </div>
 
       <!-- Badges Grid -->
-      <div class="badges-section">
-        <h2 class="text-3xl font-bold text-white mb-6">
-          {{ activeRarity === 'all'
-            ? $t('rewards.allBadges')
-            : $t(`rewards.badges.${activeRarity}`) + ' ' + $t('rewards.badgesLabel')
-          }}
-        </h2>
+      <div class="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 stagger">
+        <BadgeCard
+          v-for="badge in filteredBadges"
+          :key="badge.id"
+          :badge="badge"
+          :unlocked="isUnlocked(badge.id)"
+          :progress="getBadgeProgress(badge)"
+          :progress-current="getBadgeProgressCurrent(badge)"
+          :progress-total="getBadgeProgressTotal(badge)"
+          @click="showBadgeDetails(badge)"
+        />
+      </div>
 
-        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
-          <BadgeCard
-            v-for="badge in filteredBadges"
-            :key="badge.id"
-            :badge="badge"
-            :unlocked="isUnlocked(badge.id)"
-            :progress="getBadgeProgress(badge)"
-            :progress-current="getBadgeProgressCurrent(badge)"
-            :progress-total="getBadgeProgressTotal(badge)"
-            :unlocked-date="getUnlockedDate(badge.id)"
-            @click="showBadgeDetails(badge)"
-          />
-        </div>
-
-        <!-- Empty state -->
-        <div v-if="filteredBadges.length === 0" class="text-center py-12">
-          <GlassCard depth="medium">
-            <div class="p-8">
-              <p class="text-2xl text-white/80">
-                {{ $t('rewards.noBadgesInCategory') }}
-              </p>
-            </div>
-          </GlassCard>
-        </div>
+      <!-- Empty state -->
+      <div v-if="filteredBadges.length === 0" class="text-center py-12">
+        <p class="text-xl text-ink-soft">{{ $t('rewards.noBadgesInCategory') }}</p>
       </div>
 
       <!-- Badge Details Modal -->
-      <transition name="fade">
+      <Transition name="fade">
         <div
           v-if="selectedBadge"
-          class="badge-modal fixed inset-0 flex items-center justify-center z-50 p-6"
+          class="fixed inset-0 flex items-center justify-center z-50 p-6"
           @click.self="closeBadgeDetails"
         >
-          <div class="absolute inset-0 bg-black/50 backdrop-blur-sm"></div>
-          <GlassCard depth="deep" class="relative z-10 max-w-lg w-full">
-            <div class="p-8">
-              <!-- Close button -->
-              <button
-                @click="closeBadgeDetails"
-                class="absolute top-4 right-4 text-white/70 hover:text-white text-2xl"
-              >
-                ×
-              </button>
+          <div class="absolute inset-0 bg-ink/30 backdrop-blur-sm" />
+          <div class="card relative z-10 max-w-md w-full p-8 animate-pop-in">
+            <button
+              @click="closeBadgeDetails"
+              class="absolute top-4 right-4 text-ink-faint hover:text-ink transition"
+              :aria-label="$t('common.close')"
+            >
+              <AppIcon name="x" :size="22" />
+            </button>
 
-              <!-- Badge emoji -->
-              <div class="text-8xl text-center mb-4">
-                {{ selectedBadge.emoji }}
+            <div class="text-7xl text-center mb-4" :class="{ 'grayscale opacity-40': !isUnlocked(selectedBadge.id) }">
+              {{ selectedBadge.emoji }}
+            </div>
+
+            <h3 class="font-display text-2xl font-bold text-ink text-center mb-2">
+              {{ selectedBadge.name }}
+            </h3>
+
+            <div class="flex justify-center mb-4">
+              <span class="chip text-xs bg-sun-50 text-sun-600">
+                {{ $t(`rewards.badges.${selectedBadge.rarity}`) }}
+              </span>
+            </div>
+
+            <p class="text-ink-soft text-center mb-6">
+              {{ selectedBadge.description }}
+            </p>
+
+            <div class="text-center">
+              <div v-if="isUnlocked(selectedBadge.id)">
+                <p class="text-lg text-mint-500 font-bold flex items-center justify-center gap-2">
+                  <AppIcon name="check" :size="20" />
+                  {{ $t('rewards.unlocked') }}
+                </p>
               </div>
-
-              <!-- Badge name -->
-              <h3 class="text-3xl font-bold text-white text-center mb-2">
-                {{ selectedBadge.name }}
-              </h3>
-
-              <!-- Rarity -->
-              <div class="flex justify-center mb-4">
-                <span class="badge-rarity px-4 py-2 rounded-full text-sm font-semibold">
-                  {{ $t(`rewards.badges.${selectedBadge.rarity}`) }}
-                </span>
-              </div>
-
-              <!-- Description -->
-              <p class="text-xl text-white/90 text-center mb-6">
-                {{ selectedBadge.description }}
-              </p>
-
-              <!-- Unlock status -->
-              <div class="text-center">
-                <div v-if="isUnlocked(selectedBadge.id)" class="unlocked-status">
-                  <span class="text-6xl mb-4 block">✓</span>
-                  <p class="text-lg text-green-300 font-semibold">
-                    {{ $t('rewards.unlocked') }}
-                  </p>
-                  <p class="text-sm text-white/60 mt-2">
-                    {{ $t('rewards.unlockedOn', { date: formatDate(getUnlockedDate(selectedBadge.id)!) }) }}
-                  </p>
-                </div>
-                <div v-else class="locked-status">
-                  <span class="text-6xl mb-4 block opacity-40">🔒</span>
-                  <p class="text-lg text-white/70 font-semibold mb-4">
-                    {{ $t('rewards.locked') }}
-                  </p>
-                  <p class="text-sm text-white/60 italic">
-                    {{ $t('rewards.howToUnlock') }}
-                  </p>
-                </div>
-              </div>
-
-              <!-- Share button (if unlocked) -->
-              <div v-if="isUnlocked(selectedBadge.id)" class="mt-6">
-                <GlassButton
-                  @click="shareBadge(selectedBadge)"
-                  variant="success"
-                  size="lg"
-                  icon="📤"
-                  class="w-full"
-                >
-                  {{ $t('common.share') }}
-                </GlassButton>
+              <div v-else>
+                <p class="text-lg text-ink-faint font-semibold mb-1">
+                  🔒 {{ $t('rewards.locked') }}
+                </p>
+                <p class="text-sm text-ink-faint italic">
+                  {{ $t('rewards.howToUnlock') }}
+                </p>
               </div>
             </div>
-          </GlassCard>
+
+            <!-- Share button (if unlocked) -->
+            <div v-if="isUnlocked(selectedBadge.id)" class="mt-6">
+              <GlassButton @click="shareBadge(selectedBadge)" variant="success" size="md" class="w-full">
+                📤 {{ $t('common.share') }}
+              </GlassButton>
+            </div>
+          </div>
         </div>
-      </transition>
+      </Transition>
     </div>
   </AnimatedBackground>
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import AnimatedBackground from '../components/AnimatedBackground.vue'
+import AppIcon from '../components/AppIcon.vue'
 import GlassButton from '../components/GlassButton.vue'
-import GlassCard from '../components/GlassCard.vue'
 import BadgeCard from '../components/BadgeCard.vue'
 import StatItem from '../components/StatItem.vue'
-import { rewardsData, type Badge, type UserProgress, initializeUserProgress, calculatePoints } from '../data/rewards'
+import { rewardsData, type Badge } from '../data/rewards'
+import { useProgress } from '../composables/useProgress'
 
 const { locale, t } = useI18n()
 
+// Progressi reali e reattivi: si aggiornano giocando
+const { progress } = useProgress()
+
 // Get badges for current locale
 const badges = computed(() => rewardsData[locale.value] || rewardsData.it)
-
-// User progress state
-const userProgress = ref<UserProgress>(initializeUserProgress())
 
 // Filter state
 const rarities = ['all', 'common', 'rare', 'epic', 'legendary'] as const
@@ -217,89 +169,53 @@ const filteredBadges = computed(() => {
   return badges.value.filter(b => b.rarity === activeRarity.value)
 })
 
-// Get badge count by rarity
 const getBadgeCountByRarity = (rarity: string): number => {
   if (rarity === 'all') return badges.value.length
   return badges.value.filter(b => b.rarity === rarity).length
 }
 
-// Check if badge is unlocked
 const isUnlocked = (badgeId: string): boolean => {
-  return userProgress.value.unlockedBadges.includes(badgeId)
+  return progress.unlockedBadges.includes(badgeId)
 }
 
-// Get unlocked date
-const getUnlockedDate = (badgeId: string): string | undefined => {
-  // This would come from extended UserProgress data
-  // For now, return lastVisit as placeholder
-  return isUnlocked(badgeId) ? userProgress.value.lastVisit : undefined
-}
-
-// Calculate badge progress
-const getBadgeProgress = (badge: Badge): number => {
-  const condition = badge.condition
-
-  switch (condition.type) {
-    case 'game_complete':
-      if (!condition.target || !condition.count) return 0
-      const completions = userProgress.value.gameStats[condition.target]?.completions || 0
-      return (completions / condition.count) * 100
-
-    case 'count':
-      if (!condition.count) return 0
-      const total = userProgress.value.totalGamesPlayed
-      return (total / condition.count) * 100
-
-    case 'streak':
-      if (!condition.count) return 0
-      return (userProgress.value.streakDays / condition.count) * 100
-
-    case 'explore':
-      if (!condition.count) return 0
-      return (userProgress.value.sectionsVisited.length / condition.count) * 100
-
-    case 'collection':
-      if (condition.target === 'badges' && condition.count) {
-        return (userProgress.value.unlockedBadges.length / condition.count) * 100
-      }
-      return 0
-
-    default:
-      return 0
-  }
-}
-
-// Get progress current value
+// Valore corrente verso lo sblocco
 const getBadgeProgressCurrent = (badge: Badge): number => {
   const condition = badge.condition
 
   switch (condition.type) {
     case 'game_complete':
-      return condition.target ? userProgress.value.gameStats[condition.target]?.completions || 0 : 0
+      return condition.target ? progress.gameStats[condition.target]?.completions || 0 : 0
     case 'count':
-      return userProgress.value.totalGamesPlayed
+      if (condition.target === 'prompts') {
+        return progress.collections['prompts']?.length || 0
+      }
+      return progress.totalGamesPlayed
     case 'streak':
-      return userProgress.value.streakDays
+      return progress.streakDays
     case 'explore':
-      return userProgress.value.sectionsVisited.length
+      return progress.sectionsVisited.length
     case 'collection':
-      return condition.target === 'badges' ? userProgress.value.unlockedBadges.length : 0
+      if (condition.target === 'badges') return progress.unlockedBadges.length
+      return progress.collections[condition.target || '']?.length || 0
     default:
       return 0
   }
 }
 
-// Get progress total value
 const getBadgeProgressTotal = (badge: Badge): number => {
   return badge.condition.count || 0
 }
 
-// Show badge details
+const getBadgeProgress = (badge: Badge): number => {
+  const total = getBadgeProgressTotal(badge)
+  if (total === 0) return 0
+  return (getBadgeProgressCurrent(badge) / total) * 100
+}
+
 const showBadgeDetails = (badge: Badge) => {
   selectedBadge.value = badge
 }
 
-// Close badge details
 const closeBadgeDetails = () => {
   selectedBadge.value = null
 }
@@ -313,7 +229,6 @@ const shareBadge = (badge: Badge) => {
       title: badge.name,
       text: shareText
     }).catch(() => {
-      // Fallback to copying to clipboard
       copyToClipboard(shareText)
     })
   } else {
@@ -321,14 +236,12 @@ const shareBadge = (badge: Badge) => {
   }
 }
 
-// Copy to clipboard
 const copyToClipboard = (text: string) => {
   if (navigator.clipboard) {
     navigator.clipboard.writeText(text).then(() => {
       alert(t('common.copied'))
     })
   } else {
-    // Fallback for older browsers
     const textarea = document.createElement('textarea')
     textarea.value = text
     document.body.appendChild(textarea)
@@ -338,57 +251,35 @@ const copyToClipboard = (text: string) => {
     alert(t('common.copied'))
   }
 }
-
-// Format date
-const formatDate = (dateString: string): string => {
-  try {
-    const date = new Date(dateString)
-    return date.toLocaleDateString()
-  } catch {
-    return dateString
-  }
-}
-
-// LocalStorage persistence
-const STORAGE_KEY = 'glimmy-user-progress'
-
-const loadProgress = () => {
-  try {
-    const stored = localStorage.getItem(STORAGE_KEY)
-    if (stored) {
-      userProgress.value = JSON.parse(stored)
-    }
-  } catch (error) {
-    console.error('Failed to load user progress:', error)
-  }
-}
-
-const saveProgress = () => {
-  try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(userProgress.value))
-  } catch (error) {
-    console.error('Failed to save user progress:', error)
-  }
-}
-
-// Load progress on mount
-onMounted(() => {
-  loadProgress()
-})
 </script>
 
 <style scoped>
-.badge-modal {
-  animation: fadeIn 0.3s ease;
+.filter-chip {
+  padding: 0.5rem 1.25rem;
+  border-radius: 9999px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #6e7191;
+  background: #ffffff;
+  border: 1.5px solid rgba(43, 45, 66, 0.08);
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+.filter-chip:hover {
+  border-color: rgba(247, 179, 43, 0.5);
+  color: #2b2d42;
+}
+
+.filter-chip.active {
+  background: #f7b32b;
+  border-color: #f7b32b;
+  color: #2b2d42;
+  box-shadow: 0 6px 16px -6px rgba(229, 157, 19, 0.5);
+}
+
+.grayscale {
+  filter: grayscale(100%);
 }
 
 .fade-enter-active,
@@ -399,16 +290,5 @@ onMounted(() => {
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
-}
-
-.badge-rarity {
-  background: rgba(255, 255, 255, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  color: white;
-}
-
-.unlocked-status,
-.locked-status {
-  animation: fadeIn 0.4s ease;
 }
 </style>
